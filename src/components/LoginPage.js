@@ -1,21 +1,22 @@
-import React, { useState } from "react"; // Import useState để quản lý trạng thái
-import { Link } from "react-router-dom";
-import "../assets/styles/login.css"; // Đảm bảo dòng này tồn tại
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import "../assets/styles/login.css";
 
 function LoginPage() {
   // --- LOGIC & STATE MANAGEMENT ---
-  // State để lưu trữ giá trị của ô username và password
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  // State để quản lý việc ẩn/hiện mật khẩu
   const [showPassword, setShowPassword] = useState(false);
+  const navigate = useNavigate();
 
-  // Hàm xử lý khi nhấn nút ẩn/hiện mật khẩu
-  const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword); // Đảo ngược giá trị hiện tại
+  const handleLogin = (e) => {
+    e.preventDefault(); // Ngăn form submit và tải lại trang
+    // Logic đăng nhập sẽ ở đây
+    // Ví dụ: điều hướng đến trang danh sách tank
+    navigate("/tanks");
   };
 
-  // --- GIAO DIỆN (UI) ---
+  // --- RENDER ---
   return (
     <div className="login-container">
       {/* Logo */}
@@ -28,63 +29,63 @@ function LoginPage() {
       <p className="login-subtitle">Đăng nhập vào tài khoản của bạn</p>
 
       {/* Form container */}
-      <div className="form-container">
-        {/* Username Field */}
+      <form className="form-container" onSubmit={handleLogin}>
+        {/* --- Ô Tên đăng nhập --- */}
         <div className="form-group">
           <label className="form-label" htmlFor="username">
             Tên đăng nhập
           </label>
+          {/* SỬA LẠI CẤU TRÚC Ở ĐÂY */}
           <div className="input-wrapper">
             <span className="material-symbols-outlined input-icon">person</span>
             <input
               id="username"
               className="form-input"
-              placeholder="Nhập tên đăng nhập"
               type="text"
-              value={username} // Gán giá trị từ state
+              placeholder="Nhập tên đăng nhập"
+              value={username}
               onChange={(e) => setUsername(e.target.value)} // Cập nhật state khi người dùng nhập
+              required
             />
           </div>
         </div>
 
-        {/* Password Field */}
+        {/* --- Ô Mật khẩu --- */}
         <div className="form-group">
           <label className="form-label" htmlFor="password">
             Mật khẩu
           </label>
+          {/* SỬA LẠI CẤU TRÚC Ở ĐÂY */}
           <div className="input-wrapper">
             <span className="material-symbols-outlined input-icon">lock</span>
             <input
               id="password"
               className="form-input"
+              type={showPassword ? "text" : "password"}
               placeholder="Nhập mật khẩu"
-              type={showPassword ? "text" : "password"} // Thay đổi type dựa trên state
-              style={{ paddingRight: "3rem" }} // Chuyển style inline sang object
-              value={password} // Gán giá trị từ state
-              onChange={(e) => setPassword(e.target.value)} // Cập nhật state khi người dùng nhập
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
             />
             <button
+              type="button"
               className="password-toggle"
-              onClick={togglePasswordVisibility}
+              onClick={() => setShowPassword(!showPassword)}
             >
-              {/* Thay đổi icon dựa trên state */}
               <span className="material-symbols-outlined">
                 {showPassword ? "visibility_off" : "visibility"}
               </span>
             </button>
           </div>
+          <a href="#" className="forgot-password">
+            Quên mật khẩu?
+          </a>
         </div>
 
-        {/* Forgot Password Link */}
-        <Link className="forgot-password" to="/forgot-password">
-          Quên mật khẩu?
-        </Link>
-
-        {/* Login Button - Dùng Link để chuyển sang trang danh sách tank */}
-        <Link to="/tanks" className="login-button">
+        <button type="submit" className="login-button">
           Đăng nhập
-        </Link>
-      </div>
+        </button>
+      </form>
     </div>
   );
 }
