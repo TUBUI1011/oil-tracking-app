@@ -219,3 +219,24 @@ body.history-page {
   font-size: 0.75rem;
   color: var(--text-light-secondary);
 }
+
+/* --- Thêm vào cuối file --- */
+.transaction-item-link {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+  border-radius: 0.75rem;
+  transition: background-color 0.2s;
+}
+
+.transaction-item-link:hover {
+  background-color: #f8fafc; /* Màu nền khi di chuột qua */
+}
+
+.transaction-item .item-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+}

@@ -26,6 +26,13 @@ body.detail-page {
   overflow-x: hidden;
 }
 
+/* --- Detail Container --- */
+.detail-container {
+  padding: 1rem;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
 /* --- Header --- */
 .detail-header {
   position: sticky;
@@ -37,6 +44,7 @@ body.detail-page {
   padding: 1rem;
   background-color: var(--background-light);
   border-bottom: 1px solid var(--border-light);
+  margin-bottom: 2rem;
 }
 
 .header-button {
@@ -68,6 +76,12 @@ body.detail-page {
   width: 2.5rem;
   height: 2.5rem;
   flex-shrink: 0;
+}
+
+.back-button {
+  color: #333;
+  text-decoration: none;
+  margin-right: 1rem;
 }
 
 /* --- Main Content --- */
@@ -206,6 +220,102 @@ body.detail-page {
   width: 100%;
   height: 1px;
   background-color: var(--border-light);
+}
+
+/* --- Info Section --- */
+.info-section {
+  background-color: #fff;
+  padding: 1.5rem;
+  border-radius: 0.75rem;
+  margin-bottom: 2rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.info-item .info-label {
+  display: block;
+  font-size: 0.875rem;
+  color: #888;
+  margin-bottom: 0.25rem;
+}
+
+.info-item .info-value {
+  font-size: 1.125rem;
+  font-weight: 600;
+}
+
+.info-item .info-value.code {
+  color: #d9534f;
+}
+.info-item .info-value.location {
+  color: #5bc0de;
+}
+
+/* --- History Section --- */
+.history-section {
+  background-color: #fff;
+  padding: 1.5rem;
+  border-radius: 0.75rem;
+}
+
+.history-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+}
+
+.history-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.history-item {
+  display: flex;
+  align-items: flex-start;
+  position: relative;
+  padding-bottom: 1.5rem;
+  padding-left: 2.5rem;
+}
+
+.history-item:not(:last-child)::before {
+  content: "";
+  position: absolute;
+  left: 1rem;
+  top: 1.5rem;
+  bottom: -0.5rem;
+  width: 2px;
+  background-color: #e7e3cf;
+}
+
+.history-icon-wrapper {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 2rem;
+  height: 2rem;
+  background-color: #f0d342;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.history-icon {
+  color: #333;
+}
+
+.history-details .history-event {
+  font-size: 1rem;
+  font-weight: 500;
+  margin: 0 0 0.25rem 0;
+}
+
+.history-details .history-timestamp {
+  font-size: 0.875rem;
+  color: #888;
+  margin: 0;
 }
 
 /* --- Footer Buttons --- */

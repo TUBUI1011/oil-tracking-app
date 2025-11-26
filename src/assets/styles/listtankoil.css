@@ -1,210 +1,133 @@
 /* --- Biến màu và Cài đặt chung --- */
 :root {
   --primary-color: #f0d342;
-  --primary-bg-light: rgba(240, 211, 66, 0.2);
-  --primary-bg-dark: rgba(240, 211, 66, 0.3);
-  --background-light: #f8f8f6;
-  --card-bg-light: #ffffff;
-  --subtle-bg-light: #f1f5f9; /* slate-100 */
-  --text-primary: #0f172a; /* slate-900 */
+  --primary-text: #3a2e00;
+  --danger-color: #ef4444;
+  --background-light: #f8fafc; /* slate-50 */
+  --card-bg: #ffffff;
+  --text-primary: #1e293b; /* slate-800 */
   --text-secondary: #64748b; /* slate-500 */
-  --text-muted: #94a3b8; /* slate-400 */
-  --danger-color: #dc2626; /* red-600 */
-  --danger-bg: rgba(239, 68, 68, 0.8); /* red-500/80 */
   --border-color: #e2e8f0; /* slate-200 */
+  --header-height: 85px; /* Chiều cao của header */
 }
 
 body {
   font-family: "Manrope", sans-serif;
   background-color: var(--background-light);
   color: var(--text-primary);
-  min-height: 100vh;
+  /* Ngăn cuộn dọc toàn trang */
+  overflow: hidden;
 }
 
-.page-container {
+.page-container.kanban-layout {
   display: flex;
   flex-direction: column;
-  width: 100%;
-  min-height: 100vh;
-  overflow-x: hidden;
+  height: 100vh;
 }
 
-/* --- Header --- */
+/* --- Header & Search --- */
 .main-header {
-  position: sticky;
-  top: 0;
-  z-index: 10;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
   padding: 1rem;
-  padding-bottom: 0.5rem;
-  background-color: var(--background-light);
+  border-bottom: 1px solid var(--border-color);
+  flex-shrink: 0; /* Không co lại */
+  height: var(--header-height);
+  box-sizing: border-box;
 }
-
 .header-title {
-  flex: 1;
-  font-size: 1.5rem; /* text-2xl */
-  font-weight: 700;
-  letter-spacing: -0.015em;
+  font-size: 1.5rem;
+  font-weight: 800;
+  margin: 0 0 1rem 0;
 }
-
-.header-placeholder {
-  width: 3rem; /* size-12 */
-  height: 3rem;
-  flex-shrink: 0;
+.search-bar-container {
+  position: relative;
 }
-
-/* --- Search & Filters --- */
-.search-filter-bar {
-  position: sticky;
-  top: 72px;
-  z-index: 10;
-  display: flex;
-  gap: 0.75rem;
-  align-items: center;
-  padding: 0.75rem 1rem;
-  background-color: var(--background-light);
-}
-
-.search-input-wrapper {
-  display: flex;
-  flex: 1;
-  align-items: stretch;
-  height: 3rem; /* h-12 */
-  border-radius: 0.5rem;
-  background-color: var(--subtle-bg-light);
-}
-
 .search-icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding-left: 1rem;
+  position: absolute;
+  left: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
   color: var(--text-secondary);
 }
-
 .search-input {
-  flex: 1;
   width: 100%;
-  border: none;
-  background: none;
-  padding: 0 1rem 0 0.5rem;
+  height: 3rem;
+  border-radius: 0.5rem;
+  border: 1px solid var(--border-color);
+  background-color: var(--card-bg);
+  padding-left: 2.5rem;
+  padding-right: 1rem;
   font-size: 1rem;
-  color: var(--text-primary);
 }
 .search-input:focus {
-  outline: none;
-}
-.search-input::placeholder {
-  color: var(--text-secondary);
+  outline: 2px solid var(--primary-color);
+  border-color: transparent;
 }
 
-.filter-button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 3rem;
-  height: 3rem;
-  flex-shrink: 0;
-  border-radius: 0.5rem;
-  background-color: var(--subtle-bg-light);
-  border: none;
-  cursor: pointer;
-  color: var(--text-primary);
+/* --- Main Content --- */
+.list-main-content {
+  padding: 1.5rem 1rem 8rem; /* Thêm padding và không gian cho nav */
 }
 
-/* --- Filter Chips --- */
-.filter-chips-container {
-  display: flex;
-  gap: 0.75rem;
-  padding: 0 1rem 0.75rem;
-  overflow-x: auto;
+.location-section {
+  margin-bottom: 2.5rem;
+}
+.location-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--border-color);
 }
 
-.filter-chip {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 2rem; /* h-8 */
-  padding: 0 1rem;
-  border-radius: 9999px;
-  border: none;
-  cursor: pointer;
-  flex-shrink: 0;
-  font-size: 0.875rem;
-  font-weight: 500;
-}
-.filter-chip.active {
-  background-color: var(--primary-bg-light);
-  color: var(--text-primary);
-}
-.filter-chip.inactive {
-  background-color: var(--subtle-bg-light);
-  color: var(--text-secondary);
+/* --- Bố cục lưới cho Tank --- */
+.tank-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 1.5rem;
 }
 
-/* --- Tank List --- */
-.tank-list-container {
-  flex-grow: 1;
-  padding: 0 1rem 6rem; /* pb-24 to leave space for nav */
+/* --- Thiết kế Tank Card --- */
+.tank-card {
+  background-color: var(--card-bg);
+  border-radius: 0.75rem;
+  border: 1px solid var(--border-color);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  transition: box-shadow 0.2s ease;
+  flex-shrink: 0; /* Ngăn card bị co lại */
+}
+.tank-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-.tank-item {
+.card-main-link {
+  text-decoration: none;
+  color: inherit;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.card-header {
   display: flex;
   align-items: center;
   gap: 1rem;
-  padding: 1rem;
-  min-height: 72px;
-  border-radius: 0.75rem; /* rounded-xl */
-  background-color: var(--card-bg-light);
-  box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
 }
-
-.tank-icon-wrapper {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 3.5rem; /* size-14 */
-  height: 3.5rem;
-  flex-shrink: 0;
-  border-radius: 0.5rem;
-  background-color: var(--subtle-bg-light);
+.tank-icon {
+  color: var(--text-secondary);
 }
-.tank-icon-wrapper .material-symbols-outlined {
-  font-size: 2.25rem; /* text-4xl */
-  color: var(--text-muted);
+.card-title-group {
+  overflow: hidden;
 }
-
-.tank-level-indicator {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  border-radius: 0.5rem;
-  background-color: rgba(240, 211, 66, 0.8); /* bg-primary/80 */
-}
-.tank-level-indicator.low {
-  background-color: var(--danger-bg);
-}
-
-.tank-details {
-  flex-grow: 1;
-}
-
-.tank-title {
-  font-size: 1rem;
+.card-title {
   font-weight: 600;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
-
-.tank-subtitle {
+.card-subtitle {
   font-size: 0.875rem;
   color: var(--text-secondary);
   white-space: nowrap;
@@ -212,50 +135,173 @@ body {
   text-overflow: ellipsis;
 }
 
-.tank-percentage {
-  text-align: right;
-  flex-shrink: 0;
+.card-body {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
 }
-
-.percentage-value {
-  font-size: 1rem;
+.percentage-bar-background {
+  flex-grow: 1;
+  height: 0.5rem;
+  background-color: #f1f5f9; /* slate-100 */
+  border-radius: 99px;
+  overflow: hidden;
+}
+.percentage-bar-foreground {
+  height: 100%;
+  background-color: var(--primary-color);
+  border-radius: 99px;
+  transition: width 0.5s ease;
+}
+.percentage-bar-foreground.low {
+  background-color: var(--danger-color);
+}
+.percentage-text {
   font-weight: 700;
+  font-size: 0.875rem;
 }
-.percentage-value.low {
+.percentage-text.low {
   color: var(--danger-color);
 }
 
-.percentage-liters {
-  font-size: 0.75rem;
-  color: var(--text-secondary);
+.card-footer {
+  border-top: 1px solid var(--border-color);
+  padding: 0.75rem;
 }
-
-.chevron-icon {
+.move-button {
+  width: 100%;
+  height: 2.5rem;
+  border: none;
+  background-color: #f1f5f9;
+  color: var(--text-secondary);
+  border-radius: 0.5rem;
+  font-weight: 600;
+  cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 1.75rem; /* size-7 */
-  height: 1.75rem;
-  flex-shrink: 0;
-  color: var(--text-muted);
+  gap: 0.5rem;
+  transition: background-color 0.2s, color 0.2s;
+}
+.move-button:hover {
+  background-color: var(--primary-color);
+  color: var(--primary-text);
+}
+.move-button .material-symbols-outlined {
+  font-size: 1.25rem;
 }
 
-/* --- Bottom Navigation --- */
-.bottom-nav {
+.empty-text {
+  color: var(--text-secondary);
+  padding: 2rem 1rem;
+  text-align: center;
+  font-size: 0.875rem;
+}
+
+/* --- Nút FAB và Nav --- */
+.fab-add-button {
   position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 5rem; /* h-20 */
+  right: 1.5rem;
+  bottom: 1.5rem;
+  width: 3.5rem;
+  height: 3.5rem;
+  background-color: var(--primary-color);
+  color: var(--primary-text);
+  border-radius: 50%;
   display: flex;
-  justify-content: space-around;
   align-items: center;
-  padding: 0 1rem;
-  background-color: rgba(255, 255, 255, 0.8);
-  backdrop-filter: blur(4px);
-  border-top: 1px solid var(--border-color);
+  justify-content: center;
+  text-decoration: none;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  z-index: 10;
+  transition: transform 0.2s ease-in-out;
+}
+.fab-add-button:hover {
+  transform: scale(1.05);
+}
+.fab-add-button .material-symbols-outlined {
+  font-size: 2rem;
 }
 
+/* Ẩn bottom-nav trên màn hình lớn hơn điện thoại */
+.bottom-nav {
+  display: none;
+}
+
+/* Media Query: Hiển thị lại bottom-nav và chuyển về layout dọc trên điện thoại */
+@media (max-width: 768px) {
+  body {
+    overflow: auto; /* Cho phép cuộn lại */
+  }
+  .kanban-board {
+    flex-direction: column; /* Xếp các cột theo chiều dọc */
+    overflow-x: hidden;
+    height: auto;
+  }
+  .kanban-column {
+    flex-basis: auto; /* Bỏ chiều rộng cố định */
+    max-height: none;
+  }
+  .bottom-nav {
+    display: flex; /* Hiển thị lại nav */
+  }
+  .fab-add-button {
+    bottom: 6rem; /* Nâng nút FAB lên để không che nav */
+  }
+}
+
+/* --- Bảng Kanban --- */
+.kanban-board {
+  display: flex;
+  flex-grow: 1; /* Lấp đầy không gian còn lại */
+  gap: 1rem;
+  padding: 1rem;
+  overflow-x: auto; /* Cho phép cuộn ngang */
+  overflow-y: hidden; /* Không cuộn dọc */
+}
+
+/* --- Cột Kanban --- */
+.kanban-column {
+  flex: 0 0 350px; /* Không co giãn, chiều rộng cố định 350px */
+  display: flex;
+  flex-direction: column;
+  background-color: #f1f5f9; /* Màu nền cho cột */
+  border-radius: 0.75rem;
+  max-height: 100%;
+}
+
+.kanban-column-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  border-bottom: 1px solid var(--border-color);
+  flex-shrink: 0;
+}
+.kanban-column-title {
+  font-size: 1rem;
+  font-weight: 700;
+  margin: 0;
+}
+.kanban-column-count {
+  font-size: 0.875rem;
+  font-weight: 600;
+  background-color: var(--border-color);
+  color: var(--text-secondary);
+  padding: 0.125rem 0.5rem;
+  border-radius: 99px;
+}
+
+.kanban-column-body {
+  flex-grow: 1;
+  overflow-y: auto; /* Cho phép cuộn dọc bên trong cột */
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* --- nav-item --- */
 .nav-item {
   display: flex;
   flex-direction: column;

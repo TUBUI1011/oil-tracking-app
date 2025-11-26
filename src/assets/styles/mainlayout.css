@@ -1,0 +1,143 @@
+:root {
+  --sidebar-width: 250px;
+  --bottom-nav-height: 5rem;
+  --primary-color: #f0d342;
+  --primary-text: #3a2e00;
+  --text-primary: #1e293b;
+  --text-secondary: #64748b;
+  --border-color: #e2e8f0;
+  --sidebar-bg: #ffffff;
+}
+
+.app-container {
+  display: flex;
+}
+
+/* --- Sidebar (Màn hình lớn) --- */
+.sidebar {
+  width: var(--sidebar-width);
+  height: 100vh;
+  background-color: var(--sidebar-bg);
+  border-right: 1px solid var(--border-color);
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem 1rem;
+  position: fixed;
+  top: 0;
+  left: 0;
+  flex-shrink: 0;
+}
+
+.sidebar-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0 0.5rem 1.5rem;
+  border-bottom: 1px solid var(--border-color);
+  margin-bottom: 1rem;
+}
+.logo-icon {
+  font-size: 2rem;
+  color: var(--primary-color);
+}
+.sidebar-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.sidebar-nav .nav-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+  text-decoration: none;
+  color: var(--text-secondary);
+  font-weight: 600;
+  transition: background-color 0.2s, color 0.2s;
+}
+.sidebar-nav .nav-item:hover {
+  background-color: #f1f5f9;
+}
+.sidebar-nav .nav-item.active {
+  background-color: var(--primary-color);
+  color: var(--primary-text);
+}
+
+/* --- Main Content Wrapper --- */
+.main-content-wrapper {
+  flex-grow: 1;
+  margin-left: var(--sidebar-width); /* Chừa chỗ cho sidebar */
+  width: calc(100% - var(--sidebar-width));
+}
+
+/* --- Bottom Nav (Màn hình nhỏ) --- */
+.bottom-nav {
+  display: none; /* Ẩn trên màn hình lớn */
+}
+
+/* --- FAB --- */
+.fab-add-button {
+  position: fixed;
+  right: 1.5rem;
+  bottom: 1.5rem;
+  width: 3.5rem;
+  height: 3.5rem;
+  background-color: var(--primary-color);
+  color: var(--primary-text);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  z-index: 10;
+}
+
+/* --- Responsive cho màn hình nhỏ --- */
+@media (max-width: 768px) {
+  .sidebar {
+    display: none; /* Ẩn sidebar */
+  }
+  .main-content-wrapper {
+    margin-left: 0; /* Xóa khoảng trống của sidebar */
+    width: 100%;
+    padding-bottom: var(--bottom-nav-height); /* Chừa chỗ cho bottom nav */
+  }
+  .bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: var(--bottom-nav-height);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background-color: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(4px);
+    border-top: 1px solid var(--border-color);
+    z-index: 30;
+  }
+  .bottom-nav .nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+    text-decoration: none;
+    color: var(--text-secondary);
+  }
+  .bottom-nav .nav-item.active {
+    color: var(--primary-color);
+  }
+  .fab-add-button {
+    bottom: calc(
+      var(--bottom-nav-height) + 1rem
+    ); /* Nâng FAB lên trên bottom nav */
+  }
+}

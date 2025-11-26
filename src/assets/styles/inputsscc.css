@@ -216,3 +216,81 @@ body.sscc-page {
 .save-button:hover {
   opacity: 0.9;
 }
+
+/* --- Các style mới được thêm vào --- */
+.section-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  text-align: center;
+  color: #333;
+}
+
+.upload-note {
+  font-size: 0.875rem;
+  color: #888;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.excel-preview-wrapper {
+  margin-top: 2rem;
+  padding: 1.5rem;
+  background-color: #fff;
+  border-radius: 0.75rem;
+  border: 1px solid #e7e3cf;
+}
+
+.table-container {
+  max-height: 300px;
+  overflow-y: auto;
+  border: 1px solid #e7e3cf;
+  border-radius: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  padding: 0.75rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid #e7e3cf;
+}
+
+thead th {
+  background-color: #f8f8f6;
+  position: sticky;
+  top: 0;
+  font-weight: 600;
+}
+
+tbody tr:last-child td {
+  border-bottom: none;
+}
+
+tbody tr:hover {
+  background-color: #fdfcf7;
+}
+
+.confirm-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 3.5rem;
+  background-color: #28a745; /* Màu xanh lá cây cho hành động xác nhận */
+  color: #fff;
+  border: none;
+  border-radius: 0.75rem;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.confirm-button:hover {
+  opacity: 0.9;
+}
