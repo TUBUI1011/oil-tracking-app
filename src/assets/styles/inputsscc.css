@@ -1,0 +1,218 @@
+/* --- Biến màu và Cài đặt chung --- */
+:root {
+  --primary-color: #f0d342;
+  --background-light: #f8f8f6;
+  --text-primary-light: #333333;
+  --text-secondary-light: #888888;
+  --border-light: #e7e3cf;
+  --card-bg-light: #ffffff;
+  --primary-bg-subtle: #fdfae9;
+  --primary-border-dashed: #d6c76e;
+}
+
+body.sscc-page {
+  font-family: "Manrope", sans-serif;
+  background-color: var(--background-light);
+  color: var(--text-primary-light);
+  min-height: 100vh;
+}
+
+.page-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-height: 100vh;
+}
+
+/* --- Header --- */
+.sscc-header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 4rem; /* h-16 */
+  padding: 0 1rem;
+  background-color: rgba(248, 248, 246, 0.8); /* bg-background-light/80 */
+  backdrop-filter: blur(4px);
+  border-bottom: 1px solid var(--border-light);
+}
+
+.header-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem; /* size-10 */
+  height: 2.5rem;
+  border-radius: 9999px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--text-primary-light);
+}
+
+.header-title {
+  font-size: 1.125rem; /* text-lg */
+  font-weight: 700;
+}
+
+.header-placeholder {
+  width: 2.5rem;
+  height: 2.5rem;
+}
+
+/* --- Main Content & Form --- */
+.sscc-main {
+  flex-grow: 1;
+  padding: 1rem;
+  overflow-y: auto;
+}
+
+.form-wrapper {
+  max-width: 448px; /* max-w-md */
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem; /* space-y-5 */
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.form-label {
+  padding-bottom: 0.5rem;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.input-wrapper {
+  position: relative;
+  display: flex;
+  width: 100%;
+}
+
+.form-input,
+.form-select {
+  height: 3.5rem; /* h-14 */
+  width: 100%;
+  border-radius: 0.75rem; /* rounded-xl */
+  border: 1px solid var(--border-light);
+  background-color: var(--card-bg-light);
+  padding: 0 1rem;
+  font-size: 1rem;
+  color: var(--text-primary-light);
+}
+.form-input::placeholder,
+.form-select::placeholder {
+  color: var(--text-secondary-light);
+}
+.form-input:focus,
+.form-select:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 2px rgba(240, 211, 66, 0.5);
+}
+
+.form-select {
+  appearance: none;
+}
+
+.input-icon-button {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  padding-right: 1rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--text-secondary-light);
+}
+
+.select-arrow-icon {
+  pointer-events: none;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  padding-right: 1rem;
+  color: var(--text-secondary-light);
+}
+
+/* --- Divider --- */
+.divider-container {
+  display: flex;
+  align-items: center;
+  padding-top: 0.5rem;
+}
+.divider-line {
+  flex-grow: 1;
+  height: 1px;
+  background-color: var(--border-light);
+}
+.divider-text {
+  padding: 0 0.75rem;
+  font-size: 0.875rem;
+  color: var(--text-secondary-light);
+}
+
+/* --- Buttons --- */
+.upload-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.625rem; /* gap-2.5 */
+  height: 3.5rem;
+  width: 100%;
+  border-radius: 0.75rem;
+  border: 1px dashed var(--primary-border-dashed);
+  background-color: var(--primary-bg-subtle);
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--text-primary-light);
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+.upload-button:hover {
+  background-color: rgba(240, 211, 66, 0.2);
+}
+.upload-button .material-symbols-outlined {
+  color: #8c7e3a;
+}
+
+/* --- Footer --- */
+.sscc-footer {
+  position: sticky;
+  bottom: 0;
+  padding: 1rem;
+  background-color: var(--background-light);
+}
+
+.save-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 3.5rem;
+  width: 100%;
+  max-width: 448px;
+  margin: 0 auto;
+  border-radius: 0.75rem;
+  background-color: var(--primary-color);
+  border: none;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-primary-light);
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+.save-button:hover {
+  opacity: 0.9;
+}

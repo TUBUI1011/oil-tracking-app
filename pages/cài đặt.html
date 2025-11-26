@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html class="light" lang="vi">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Cài Đặt Người Dùng</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
+      rel="stylesheet"
+    />
+    <!-- Xóa Tailwind, thêm CSS mới -->
+    <link rel="stylesheet" href="src/assets/styles/caidat.css" />
+    <style>
+      .material-symbols-outlined {
+        font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
+      }
+    </style>
+  </head>
+  <body class="settings-page">
+    <div class="page-wrapper">
+      <header class="settings-header">
+        <button class="header-button">
+          <span class="material-symbols-outlined">arrow_back</span>
+        </button>
+        <h1 class="header-title">Cài Đặt</h1>
+        <div class="header-placeholder"></div>
+      </header>
+
+      <div class="profile-section">
+        <div class="avatar-container">
+          <img
+            alt="User Avatar"
+            class="avatar-image"
+            src="https://lh3.googleusercontent.com/aida-public/AB6AXuAiBrQnKs4oTEgxR2dQ7DotRHKH-B3O0x9x2Dui4BucsGeERjvb1xaZW7qj-tS3QMIh8A12bom9HrXW_-DxkOKMoEeyFOO9k-STmEdxJy-wpFFJqjt6sBDaM8nWv2U_8uf7PrcdNFhmfKcGE7OAZzjPL1Y_e3j6gljKzfM-r3x21jQdiSjqCpmjeBMqGvrhpRyc7YEyHYBe6W1mTOFu902hHkTB2N34cP-YLLcOuksG6oBGSeiTwaCUC9lQNV7qCKc5_bAZ6GP3PeU"
+          />
+          <button class="avatar-edit-button">
+            <span class="material-symbols-outlined">edit</span>
+          </button>
+        </div>
+        <div class="profile-info">
+          <p class="profile-name">Nguyễn Văn An</p>
+          <p class="profile-email">nv.an@example.com</p>
+        </div>
+      </div>
+
+      <div class="settings-list-section">
+        <div class="settings-group">
+          <p class="group-title">Tài khoản</p>
+          <div class="group-container">
+            <a class="settings-item" href="#">
+              <span class="material-symbols-outlined item-icon">person</span>
+              <span class="item-label">Chỉnh sửa thông tin</span>
+              <span class="material-symbols-outlined item-chevron"
+                >chevron_right</span
+              >
+            </a>
+            <hr class="item-divider" />
+            <a class="settings-item" href="#">
+              <span class="material-symbols-outlined item-icon">lock</span>
+              <span class="item-label">Thay đổi mật khẩu</span>
+              <span class="material-symbols-outlined item-chevron"
+                >chevron_right</span
+              >
+            </a>
+          </div>
+        </div>
+        <div class="settings-group">
+          <p class="group-title">Ứng dụng</p>
+          <div class="group-container">
+            <a class="settings-item" href="#">
+              <span class="material-symbols-outlined item-icon"
+                >notifications</span
+              >
+              <span class="item-label">Quản lý thông báo</span>
+              <span class="material-symbols-outlined item-chevron"
+                >chevron_right</span
+              >
+            </a>
+            <hr class="item-divider" />
+            <a class="settings-item" href="#">
+              <span class="material-symbols-outlined item-icon">tune</span>
+              <span class="item-label">Cài đặt ứng dụng</span>
+              <span class="material-symbols-outlined item-chevron"
+                >chevron_right</span
+              >
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="logout-section">
+        <button class="logout-button">
+          <span class="material-symbols-outlined">logout</span>
+          <span>Đăng xuất</span>
+        </button>
+      </div>
+    </div>
+  </body>
+</html>

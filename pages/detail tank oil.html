@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+
+<html class="light" lang="vi">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Chi tiết Tank Dầu</title>
+    <!-- Xóa Tailwind, thêm CSS mới -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="src/assets/styles/detailtankoil.css" />
+    <style>
+      .material-symbols-outlined {
+        font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
+      }
+    </style>
+  </head>
+  <body class="detail-page">
+    <div class="page-wrapper">
+      <!-- TopAppBar -->
+      <header class="detail-header">
+        <button class="header-button">
+          <span class="material-symbols-outlined">arrow_back</span>
+        </button>
+        <h1 class="header-title">Chi tiết Tank Dầu</h1>
+        <div class="header-placeholder"></div>
+      </header>
+
+      <main class="detail-main">
+        <!-- Tank Visual Representation -->
+        <div class="tank-visual-container">
+          <div class="tank-svg-wrapper">
+            <svg
+              fill="none"
+              viewbox="0 0 100 130"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <defs>
+                <lineargradient id="tankFill" x1="0" x2="0" y1="0" y2="100%">
+                  <stop
+                    offset="0%"
+                    style="stop-color: rgb(228, 225, 209); stop-opacity: 1"
+                  ></stop>
+                  <stop
+                    offset="25%"
+                    style="stop-color: rgb(228, 225, 209); stop-opacity: 1"
+                  ></stop>
+                  <stop
+                    offset="25%"
+                    style="stop-color: rgb(240, 211, 66); stop-opacity: 1"
+                  ></stop>
+                  <stop
+                    offset="100%"
+                    style="stop-color: rgb(240, 211, 66); stop-opacity: 1"
+                  ></stop>
+                </lineargradient>
+              </defs>
+              <path
+                d="M10 10C10 4.47715 14.4772 0 20 0H80C85.5228 0 90 4.47715 90 10V110H10V10Z"
+                fill="url(#tankFill)"
+              ></path>
+              <path
+                class="tank-base"
+                d="M10 110H90V120C90 125.523 85.5228 130 80 130H20C14.4772 130 10 125.523 10 120V110Z"
+              ></path>
+              <rect
+                class="tank-base"
+                height="10"
+                width="100"
+                x="0"
+                y="105"
+              ></rect>
+              <path
+                class="tank-outline"
+                d="M20 0H80C85.5228 0 90 4.47715 90 10V120C90 125.523 85.5228 130 80 130H20C14.4772 130 10 125.523 10 120V10C10 4.47715 14.4772 0 20 0ZM88 10C88 5.58172 84.4183 2 80 2H20C15.5817 2 12 5.58172 12 10V120C12 124.418 15.5817 128 20 128H80C84.4183 128 88 124.418 88 120V10Z"
+              ></path>
+            </svg>
+            <div class="tank-text-overlay">
+              <span class="tank-percentage">75%</span>
+              <span class="tank-label">Mức dầu hiện tại</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- DescriptionList -->
+        <div class="description-list-container">
+          <div class="description-card">
+            <div class="description-item">
+              <p class="item-label">Trạng thái</p>
+              <div class="status-indicator">
+                <div class="status-dot-wrapper">
+                  <span class="status-dot-ping"></span>
+                  <span class="status-dot-solid"></span>
+                </div>
+                <p class="item-value">Đang sử dụng</p>
+              </div>
+            </div>
+            <div class="item-divider"></div>
+            <div class="description-item">
+              <p class="item-label">Material Code</p>
+              <p class="item-value">OIL-LUB-XYZ</p>
+            </div>
+            <div class="item-divider"></div>
+            <div class="description-item">
+              <p class="item-label">SSCC</p>
+              <p class="item-value">00123456789012345678</p>
+            </div>
+            <div class="item-divider"></div>
+            <div class="description-item">
+              <p class="item-label">Dung tích</p>
+              <p class="item-value">1500L / 2000L</p>
+            </div>
+          </div>
+        </div>
+      </main>
+
+      <!-- ButtonGroup -->
+      <footer class="detail-footer">
+        <div class="button-group">
+          <button class="footer-button button-primary">Lấy Dầu</button>
+          <button class="footer-button button-secondary">
+            Xem Lịch Sử Giao Dịch
+          </button>
+        </div>
+      </footer>
+    </div>
+  </body>
+</html>

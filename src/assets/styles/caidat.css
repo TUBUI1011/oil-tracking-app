@@ -1,0 +1,199 @@
+/* --- Biến màu và Cài đặt chung --- */
+:root {
+  --primary-color: #f0d342;
+  --background-light: #f8f8f6;
+  --text-light: #1b190d;
+  --card-light: #ffffff;
+  --border-light: #e7e3cf;
+  --subtle-light: #f3f1e7;
+  --muted-light: #9a8d4c;
+  --danger-color: #e71408;
+  --primary-border: rgba(240, 211, 66, 0.5);
+}
+
+body.settings-page {
+  font-family: "Manrope", sans-serif;
+  background-color: var(--background-light);
+  color: var(--text-light);
+  min-height: 100vh;
+}
+
+.page-wrapper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-height: 100vh;
+}
+
+/* --- Header --- */
+.settings-header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  padding: 1rem;
+  padding-bottom: 0.75rem;
+  background-color: rgba(248, 248, 246, 0.8);
+  backdrop-filter: blur(4px);
+}
+
+.header-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem; /* size-12 */
+  height: 3rem;
+  flex-shrink: 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--text-light);
+}
+
+.header-title {
+  flex: 1;
+  text-align: center;
+  font-size: 1.125rem; /* text-lg */
+  font-weight: 700;
+}
+
+.header-placeholder {
+  width: 3rem;
+}
+
+/* --- Profile Section --- */
+.profile-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.5rem 1rem 2rem;
+}
+
+.avatar-container {
+  position: relative;
+}
+
+.avatar-image {
+  width: 6rem; /* w-24 */
+  height: 6rem; /* h-24 */
+  border-radius: 9999px;
+  object-fit: cover;
+  border: 4px solid var(--primary-border);
+}
+
+.avatar-edit-button {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem; /* w-8 */
+  height: 2rem; /* h-8 */
+  border-radius: 9999px;
+  background-color: var(--primary-color);
+  color: var(--text-light);
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+}
+.avatar-edit-button .material-symbols-outlined {
+  font-size: 1rem; /* text-base */
+}
+
+.profile-info {
+  text-align: center;
+}
+
+.profile-name {
+  font-size: 1.25rem; /* text-xl */
+  font-weight: 700;
+}
+
+.profile-email {
+  font-size: 0.875rem; /* text-sm */
+  color: var(--muted-light);
+}
+
+/* --- Settings List --- */
+.settings-list-section {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 0 1rem;
+}
+
+.settings-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.group-title {
+  padding: 0 1rem 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--muted-light);
+}
+
+.group-container {
+  overflow: hidden;
+  border-radius: 0.75rem; /* rounded-xl */
+  border: 1px solid var(--border-light);
+  background-color: var(--card-light);
+}
+
+.settings-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  text-decoration: none;
+  color: inherit;
+  transition: background-color 0.2s;
+}
+.settings-item:active {
+  background-color: var(--subtle-light);
+}
+
+.item-icon,
+.item-chevron {
+  color: var(--muted-light);
+}
+
+.item-label {
+  flex: 1;
+  font-weight: 500;
+}
+
+.item-divider {
+  border: none;
+  height: 1px;
+  background-color: var(--border-light);
+  margin: 0;
+}
+
+/* --- Logout Section --- */
+.logout-section {
+  margin-top: auto;
+  padding: 1rem;
+  padding-bottom: 2rem;
+}
+
+.logout-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 100%;
+  border-radius: 0.75rem;
+  background-color: var(--subtle-light);
+  padding: 0.875rem 1rem; /* py-3.5 px-4 */
+  font-weight: 700;
+  color: var(--danger-color);
+  border: none;
+  cursor: pointer;
+}

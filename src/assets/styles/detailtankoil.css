@@ -1,0 +1,255 @@
+/* --- Biến màu và Cài đặt chung --- */
+:root {
+  --primary-color: #f0d342;
+  --background-light: #fcfbf8;
+  --text-light-primary: #1b190d;
+  --text-light-secondary: #9a8d4c;
+  --border-light: #e7e3cf;
+  --card-bg-light: #ffffff;
+  --green-400: #4ade80;
+  --green-500: #22c55e;
+  --primary-bg-light: rgba(240, 211, 66, 0.2);
+}
+
+body.detail-page {
+  font-family: "Manrope", sans-serif;
+  background-color: var(--background-light);
+  color: var(--text-light-primary);
+  min-height: 100vh;
+}
+
+.page-wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* --- Header --- */
+.detail-header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+  background-color: var(--background-light);
+  border-bottom: 1px solid var(--border-light);
+}
+
+.header-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem; /* size-10 */
+  height: 2.5rem;
+  flex-shrink: 0;
+  border-radius: 9999px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--text-light-primary);
+  transition: background-color 0.2s;
+}
+.header-button:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.header-title {
+  flex: 1;
+  text-align: center;
+  font-size: 1.125rem; /* text-lg */
+  font-weight: 700;
+}
+
+.header-placeholder {
+  width: 2.5rem;
+  height: 2.5rem;
+  flex-shrink: 0;
+}
+
+/* --- Main Content --- */
+.detail-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* --- Tank Visual --- */
+.tank-visual-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem 1rem;
+}
+
+.tank-svg-wrapper {
+  position: relative;
+  width: 12rem; /* w-48 */
+  height: 16rem; /* h-64 */
+}
+
+.tank-svg-wrapper svg {
+  width: 100%;
+  height: 100%;
+}
+
+.tank-svg-wrapper .tank-base {
+  fill: #e4e1d1;
+}
+
+.tank-svg-wrapper .tank-outline {
+  fill: rgba(27, 25, 13, 0.1);
+}
+
+.tank-text-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.tank-percentage {
+  font-size: 1.875rem; /* text-3xl */
+  font-weight: 800; /* font-extrabold */
+  color: var(--text-light-primary);
+}
+
+.tank-label {
+  font-size: 0.875rem; /* text-sm */
+  font-weight: 500; /* font-medium */
+  color: var(--text-light-secondary);
+}
+
+/* --- Description List --- */
+.description-list-container {
+  flex-grow: 1;
+  padding: 0 1rem 1rem;
+}
+
+.description-card {
+  background-color: var(--card-bg-light);
+  border-radius: 0.75rem; /* rounded-xl */
+  padding: 1rem;
+  border: 1px solid var(--border-light);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem; /* space-y-2 */
+}
+
+.description-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 0.5rem 0;
+}
+
+.item-label {
+  font-size: 0.875rem;
+  color: var(--text-light-secondary);
+}
+
+.item-value {
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-align: right;
+  color: var(--text-light-primary);
+}
+
+.status-indicator {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.status-dot-wrapper {
+  position: relative;
+  display: flex;
+  width: 0.625rem; /* w-2.5 */
+  height: 0.625rem;
+}
+
+.status-dot-ping {
+  position: absolute;
+  display: inline-flex;
+  width: 100%;
+  height: 100%;
+  border-radius: 9999px;
+  background-color: var(--green-400);
+  opacity: 0.75;
+  animation: ping 1s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+.status-dot-solid {
+  position: relative;
+  display: inline-flex;
+  width: 0.625rem;
+  height: 0.625rem;
+  border-radius: 9999px;
+  background-color: var(--green-500);
+}
+
+@keyframes ping {
+  75%,
+  100% {
+    transform: scale(2);
+    opacity: 0;
+  }
+}
+
+.item-divider {
+  width: 100%;
+  height: 1px;
+  background-color: var(--border-light);
+}
+
+/* --- Footer Buttons --- */
+.detail-footer {
+  position: sticky;
+  bottom: 0;
+  padding: 1rem;
+  background-color: var(--background-light);
+  border-top: 1px solid var(--border-light);
+}
+
+.button-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.footer-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 84px;
+  height: 3rem; /* h-12 */
+  padding: 0 1.25rem;
+  border-radius: 0.75rem;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 700;
+  transition: opacity 0.2s;
+}
+.footer-button:hover {
+  opacity: 0.9;
+}
+.footer-button:active {
+  opacity: 0.8;
+}
+
+.button-primary {
+  background-color: var(--primary-color);
+  color: var(--text-light-primary);
+}
+
+.button-secondary {
+  background-color: var(--primary-bg-light);
+  color: var(--text-light-primary);
+}

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+
+<html lang="vi">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Đăng nhập</title>
+    <!-- Xóa Tailwind CDN và config -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
+      rel="stylesheet"
+    />
+    <!-- Thêm file CSS mới -->
+    <link rel="stylesheet" href="src/assets/styles/login.css" />
+    <style>
+      .material-symbols-outlined {
+        font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="login-container">
+      <!-- Logo -->
+      <div class="login-logo">
+        <span class="material-symbols-outlined">oil_barrel</span>
+      </div>
+
+      <!-- Headline & Body Text -->
+      <h1 class="login-title">Chào mừng trở lại</h1>
+      <p class="login-subtitle">Đăng nhập vào tài khoản của bạn</p>
+
+      <!-- Form container -->
+      <div class="form-container">
+        <!-- Username Field -->
+        <div class="form-group">
+          <label class="form-label" for="username">Tên đăng nhập</label>
+          <div class="input-wrapper">
+            <span class="material-symbols-outlined input-icon">person</span>
+            <input
+              id="username"
+              class="form-input"
+              placeholder="Nhập tên đăng nhập"
+              type="text"
+            />
+          </div>
+        </div>
+
+        <!-- Password Field -->
+        <div class="form-group">
+          <label class="form-label" for="password">Mật khẩu</label>
+          <div class="input-wrapper">
+            <span class="material-symbols-outlined input-icon">lock</span>
+            <input
+              id="password"
+              class="form-input"
+              placeholder="Nhập mật khẩu"
+              type="password"
+              style="padding-right: 3rem"
+            />
+            <button class="password-toggle">
+              <span class="material-symbols-outlined">visibility</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Forgot Password Link -->
+        <a class="forgot-password" href="#">Quên mật khẩu?</a>
+
+        <!-- Login Button -->
+        <a href="List tank oil.html" class="login-button">Đăng nhập</a>
+      </div>
+    </div>
+  </body>
+</html>

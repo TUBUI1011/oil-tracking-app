@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html class="light" lang="vi">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Báo Cáo &amp; Thống Kê</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
+      rel="stylesheet"
+    />
+    <!-- Xóa Tailwind, thêm CSS mới -->
+    <link rel="stylesheet" href="src/assets/styles/thongke.css" />
+    <style>
+      .material-symbols-outlined {
+        font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
+      }
+    </style>
+  </head>
+  <body class="report-page">
+    <div class="page-wrapper">
+      <!-- Top App Bar -->
+      <header class="report-header">
+        <button class="header-button">
+          <span class="material-symbols-outlined">arrow_back</span>
+        </button>
+        <h1 class="header-title">Báo Cáo & Thống Kê</h1>
+        <button class="header-button">
+          <span class="material-symbols-outlined">download</span>
+        </button>
+      </header>
+
+      <!-- Chips / Filters -->
+      <div class="filter-chips-container">
+        <button class="filter-chip">
+          <p>Tháng này</p>
+          <span class="material-symbols-outlined">expand_more</span>
+        </button>
+        <button class="filter-chip">
+          <p>Tất cả các tank</p>
+          <span class="material-symbols-outlined">expand_more</span>
+        </button>
+      </div>
+
+      <!-- Stats -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <p class="stat-card-title">Tổng lượng dầu</p>
+          <p class="stat-card-value">15,230 L</p>
+        </div>
+        <div class="stat-card">
+          <p class="stat-card-title">Tiêu thụ trung bình</p>
+          <p class="stat-card-value">350 L/ngày</p>
+        </div>
+        <div class="stat-card full-span">
+          <p class="stat-card-title">Cảnh báo sắp hết</p>
+          <p class="stat-card-value">2 tank</p>
+        </div>
+      </div>
+
+      <!-- Charts -->
+      <div class="content-section">
+        <div class="chart-card">
+          <p class="chart-card-title">Mức dầu hiện tại theo từng tank</p>
+          <div class="chart-header">
+            <p class="chart-value">15,230 L</p>
+            <div class="chart-subtitle">
+              <p class="chart-subtitle-text">Hôm nay</p>
+              <p class="chart-percentage negative">-5%</p>
+            </div>
+          </div>
+          <div class="bar-chart-grid">
+            <div class="bar-chart-item">
+              <div class="bar-chart-bar" style="height: 75%"></div>
+              <p class="bar-chart-label">Tank 1</p>
+            </div>
+            <div class="bar-chart-item">
+              <div class="bar-chart-bar" style="height: 40%"></div>
+              <p class="bar-chart-label">Tank 2</p>
+            </div>
+            <div class="bar-chart-item">
+              <div class="bar-chart-bar" style="height: 90%"></div>
+              <p class="bar-chart-label">Tank 3</p>
+            </div>
+            <div class="bar-chart-item">
+              <div class="bar-chart-bar" style="height: 20%"></div>
+              <p class="bar-chart-label">Tank 4</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="chart-card">
+          <p class="chart-card-title">Biến động mức dầu</p>
+          <div class="chart-header">
+            <p class="chart-value">TB: 4,120 L</p>
+            <div class="chart-subtitle">
+              <p class="chart-subtitle-text">Tháng này</p>
+              <p class="chart-percentage positive">+2%</p>
+            </div>
+          </div>
+          <div class="line-chart-container">
+            <svg
+              fill="none"
+              height="148"
+              preserveaspectratio="none"
+              viewbox="-3 0 478 150"
+              width="100%"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M0 109C18.1538 109 18.1538 21 36.3077 21C54.4615 21 54.4615 41 72.6154 41C90.7692 41 90.7692 93 108.923 93C127.077 93 127.077 33 145.231 33C163.385 33 163.385 101 181.538 101C199.692 101 199.692 61 217.846 61C236 61 236 45 254.154 45C272.308 45 272.308 121 290.462 121C308.615 121 308.615 149 326.769 149C344.923 149 344.923 1 363.077 1C381.231 1 381.231 81 399.385 81C417.538 81 417.538 129 435.692 129C453.846 129 453.846 25 472 25V149H326.769H0V109Z"
+                fill="url(#paint0_linear_chart)"
+              ></path>
+              <path
+                d="M0 109C18.1538 109 18.1538 21 36.3077 21C54.4615 21 54.4615 41 72.6154 41C90.7692 41 90.7692 93 108.923 93C127.077 93 127.077 33 145.231 33C163.385 33 163.385 101 181.538 101C199.692 101 199.692 61 217.846 61C236 61 236 45 254.154 45C272.308 45 272.308 121 290.462 121C308.615 121 308.615 149 326.769 149C344.923 149 344.923 1 363.077 1C381.231 1 381.231 81 399.385 81C417.538 81 417.538 129 435.692 129C453.846 129 453.846 25 472 25"
+                stroke="#f0d342"
+                stroke-linecap="round"
+                stroke-width="3"
+              ></path>
+              <defs>
+                <lineargradient
+                  gradientunits="userSpaceOnUse"
+                  id="paint0_linear_chart"
+                  x1="236"
+                  x2="236"
+                  y1="1"
+                  y2="149"
+                >
+                  <stop stop-color="#f0d342" stop-opacity="0.3"></stop>
+                  <stop offset="1" stop-color="#f0d342" stop-opacity="0"></stop>
+                </lineargradient>
+              </defs>
+            </svg>
+            <div class="line-chart-labels">
+              <p class="bar-chart-label">01/11</p>
+              <p class="bar-chart-label">08/11</p>
+              <p class="bar-chart-label">15/11</p>
+              <p class="bar-chart-label">22/11</p>
+              <p class="bar-chart-label">30/11</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tank Details List -->
+      <h2 class="section-header">Chi tiết các tank</h2>
+      <div class="tank-list">
+        <div class="tank-item">
+          <div class="tank-icon-wrapper">
+            <span class="material-symbols-outlined">oil_barrel</span>
+          </div>
+          <div class="tank-details">
+            <p class="tank-title">Tank 1 - Diesel</p>
+            <p class="tank-subtitle">Cập nhật: 2 phút trước</p>
+          </div>
+          <div class="tank-status">
+            <p class="tank-level">3,800 / 5,000 L</p>
+            <span class="status-badge stable">Ổn định</span>
+          </div>
+        </div>
+        <div class="tank-item">
+          <div class="tank-icon-wrapper">
+            <span class="material-symbols-outlined">oil_barrel</span>
+          </div>
+          <div class="tank-details">
+            <p class="tank-title">Tank 2 - Diesel</p>
+            <p class="tank-subtitle">Cập nhật: 5 phút trước</p>
+          </div>
+          <div class="tank-status">
+            <p class="tank-level">1,950 / 5,000 L</p>
+            <span class="status-badge low">Sắp hết</span>
+          </div>
+        </div>
+        <div class="tank-item">
+          <div class="tank-icon-wrapper">
+            <span class="material-symbols-outlined">oil_barrel</span>
+          </div>
+          <div class="tank-details">
+            <p class="tank-title">Tank 3 - Xăng 95</p>
+            <p class="tank-subtitle">Cập nhật: 10 phút trước</p>
+          </div>
+          <div class="tank-status">
+            <p class="tank-level">4,500 / 5,000 L</p>
+            <span class="status-badge stable">Ổn định</span>
+          </div>
+        </div>
+        <div class="tank-item">
+          <div class="tank-icon-wrapper">
+            <span class="material-symbols-outlined">oil_barrel</span>
+          </div>
+          <div class="tank-details">
+            <p class="tank-title">Tank 4 - Xăng 92</p>
+            <p class="tank-subtitle">Cập nhật: 12 phút trước</p>
+          </div>
+          <div class="tank-status">
+            <p class="tank-level">980 / 5,000 L</p>
+            <span class="status-badge critical">Gần hết</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

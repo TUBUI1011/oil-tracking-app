@@ -1,0 +1,29 @@
+
+
+body {
+  margin: 0;
+  font-family: "Manrope", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
+    "Helvetica Neue", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #f8f8f6; /* background-light */
+  color: #1b190d; /* text-light */
+}
+
+.app-container {
+  max-width: 1280px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 2rem;
+}
+
+.app-header {
+  font-size: 2.25rem; /* Tương đương text-4xl */
+  font-weight: 700;
+  color: #f0d342; /* primary */
+}
+
+.app-paragraph {
+  margin-top: 1rem;
+}

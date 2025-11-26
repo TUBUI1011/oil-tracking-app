@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html class="light" lang="vi">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Lịch Sử Tank Oil</title>
+    <!-- Xóa Tailwind CDN và config -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
+      rel="stylesheet"
+    />
+    <!-- Thêm file CSS mới -->
+    <link rel="stylesheet" href="src/assets/styles/historyoil.css" />
+    <style>
+      .material-symbols-outlined {
+        font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
+      }
+    </style>
+  </head>
+  <body class="history-page">
+    <div class="page-wrapper">
+      <header class="history-header">
+        <button class="header-button">
+          <span class="material-symbols-outlined">arrow_back</span>
+        </button>
+        <h1 class="header-title">Lịch Sử Giao Dịch</h1>
+        <div class="header-placeholder"></div>
+      </header>
+
+      <main>
+        <div class="main-content">
+          <div class="search-bar-wrapper">
+            <span class="material-symbols-outlined search-icon">search</span>
+            <input
+              class="search-input"
+              placeholder="Tìm theo Material Code, SSCC..."
+              type="text"
+            />
+          </div>
+          <div class="filter-buttons">
+            <button class="filter-button">
+              <span class="material-symbols-outlined">calendar_month</span>
+              <span>Theo ngày</span>
+            </button>
+            <button class="filter-button">
+              <span class="material-symbols-outlined">filter_list</span>
+              <span>Bộ lọc</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="transaction-list">
+          <!-- Group 1: Hôm nay -->
+          <div class="transaction-group">
+            <h2 class="group-title">Hôm nay, 16/07/2024</h2>
+            <div class="transaction-item">
+              <div class="item-icon-wrapper out">
+                <span class="material-symbols-outlined">local_gas_station</span>
+              </div>
+              <div class="item-details">
+                <p class="item-title">OIL-LUB-XYZ</p>
+                <p class="item-subtitle">14:30 - SSCC: ...45678</p>
+              </div>
+              <div class="item-amount">
+                <p class="amount-value out">- 50L</p>
+                <p class="amount-remaining">Còn lại 1450L</p>
+              </div>
+            </div>
+            <div class="transaction-item">
+              <div class="item-icon-wrapper out">
+                <span class="material-symbols-outlined">local_gas_station</span>
+              </div>
+              <div class="item-details">
+                <p class="item-title">OIL-LUB-XYZ</p>
+                <p class="item-subtitle">09:15 - SSCC: ...45678</p>
+              </div>
+              <div class="item-amount">
+                <p class="amount-value out">- 100L</p>
+                <p class="amount-remaining">Còn lại 1500L</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Group 2: Hôm qua -->
+          <div class="transaction-group">
+            <h2 class="group-title">Hôm qua, 15/07/2024</h2>
+            <div class="transaction-item">
+              <div class="item-icon-wrapper out">
+                <span class="material-symbols-outlined">local_gas_station</span>
+              </div>
+              <div class="item-details">
+                <p class="item-title">OIL-GEN-ABC</p>
+                <p class="item-subtitle">16:45 - SSCC: ...98765</p>
+              </div>
+              <div class="item-amount">
+                <p class="amount-value out">- 25L</p>
+                <p class="amount-remaining">Còn lại 875L</p>
+              </div>
+            </div>
+            <div class="transaction-item">
+              <div class="item-icon-wrapper in">
+                <span class="material-symbols-outlined">add_circle</span>
+              </div>
+              <div class="item-details">
+                <p class="item-title">Nhập kho</p>
+                <p class="item-subtitle">08:00 - OIL-LUB-XYZ</p>
+              </div>
+              <div class="item-amount">
+                <p class="amount-value in">+ 2000L</p>
+                <p class="amount-remaining">Tank mới</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </body>
+</html>
