@@ -1,10 +1,5 @@
 import React from "react";
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  Navigate,
-} from "react-router-dom";
+import { HashRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 
 // 1. IMPORT TẤT CẢ CÁC TRANG (COMPONENT)
 // Tên file và tên component đã được đồng bộ hóa

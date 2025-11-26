@@ -84,20 +84,24 @@ body {
 }
 
 .input-icon {
-  position: absolute;
-  left: 1rem; /* pl-4 */
-  top: 50%;
+  position: absolute; /* Đặt icon ở bên trái */
+  left: 1rem; /* Giữ nguyên */
+  top: 50%; /* Canh giữa theo chiều dọc */
   transform: translateY(-50%);
   color: var(--text-secondary-light);
+  /* Thêm dòng này để icon không bị click xuyên qua */
+  pointer-events: none;
 }
 
 .form-input {
+  box-sizing: border-box; /* Đảm bảo padding được tính vào kích thước */
   width: 100%;
   height: 3.5rem; /* h-14 */
   border: 1px solid var(--border-light);
   background-color: var(--background-light);
   border-radius: 0.75rem; /* rounded-xl */
-  padding-left: 3rem; /* pl-12 */
+  /* Tăng padding để có đủ không gian cho icon */
+  padding-left: 3.5rem;
   padding-right: 1rem; /* pr-4 */
   font-size: 1rem;
   color: var(--text-primary-light);
@@ -122,6 +126,8 @@ body {
   border: none;
   cursor: pointer;
   color: var(--text-secondary-light);
+  /* Tăng padding cho nút toggle để dễ bấm hơn */
+  padding: 0.5rem;
 }
 
 .forgot-password {
