@@ -18,25 +18,28 @@ body.sscc-page {
 }
 
 .page-container {
-  display: flex;
-  flex-direction: column;
+  /* XÓA BỎ HOÀN TOÀN CÁC THUỘC TÍNH LAYOUT */
+  /* Các thuộc tính cũ đã được comment hoặc xóa */
   width: 100%;
-  min-height: 100vh;
 }
 
 /* --- Header --- */
 .sscc-header {
-  position: sticky;
-  top: 0;
-  z-index: 10;
+  /* SỬA LẠI: Header không cần dính nữa vì cả trang sẽ cuộn */
+  /* position: sticky; */
+  /* top: 0; */
+  /* z-index: 10; */
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 4rem; /* h-16 */
+  height: 4rem;
   padding: 0 1rem;
-  background-color: rgba(248, 248, 246, 0.8); /* bg-background-light/80 */
-  backdrop-filter: blur(4px);
+  /* BỎ: Không cần background trong suốt nữa */
+  /* background-color: rgba(248, 248, 246, 0.8); */
+  /* backdrop-filter: blur(4px); */
   border-bottom: 1px solid var(--border-light);
+  /* BỎ: Không cần flex-shrink */
+  /* flex-shrink: 0; */
 }
 
 .header-button {
@@ -64,9 +67,9 @@ body.sscc-page {
 
 /* --- Main Content & Form --- */
 .sscc-main {
-  flex-grow: 1;
-  padding: 1rem;
-  overflow-y: auto;
+  /* BỎ: Không cần flex-grow */
+  /* flex-grow: 1; */
+  padding: 1.5rem 1rem;
 }
 
 .form-wrapper {
@@ -74,7 +77,7 @@ body.sscc-page {
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  gap: 1.25rem; /* space-y-5 */
+  gap: 1rem; /* SỬA LẠI: Giảm khoảng cách giữa các trường */
 }
 
 .form-group {
@@ -84,8 +87,8 @@ body.sscc-page {
 }
 
 .form-label {
-  padding-bottom: 0.5rem;
-  font-size: 1rem;
+  padding-bottom: 0.25rem; /* SỬA LẠI: Giảm khoảng cách với input */
+  font-size: 0.875rem; /* SỬA LẠI: Chữ nhỏ hơn một chút */
   font-weight: 500;
 }
 
@@ -97,9 +100,9 @@ body.sscc-page {
 
 .form-input,
 .form-select {
-  height: 3.5rem; /* h-14 */
+  height: 3rem; /* SỬA LẠI: Giảm chiều cao input cho gọn hơn */
   width: 100%;
-  border-radius: 0.75rem; /* rounded-xl */
+  border-radius: 0.5rem; /* SỬA LẠI: Bo góc ít hơn */
   border: 1px solid var(--border-light);
   background-color: var(--card-bg-light);
   padding: 0 1rem;
@@ -151,7 +154,7 @@ body.sscc-page {
 .divider-container {
   display: flex;
   align-items: center;
-  padding-top: 0.5rem;
+  padding: 1.5rem 0; /* SỬA LẠI: Tăng khoảng cách cho divider */
 }
 .divider-line {
   flex-grow: 1;
@@ -242,8 +245,13 @@ body.sscc-page {
 }
 
 .table-container {
-  max-height: 300px;
-  overflow-y: auto;
+  /* XÓA: Bỏ giới hạn chiều cao và cuộn bên trong bảng */
+  /* max-height: 300px; */
+  /* overflow-y: auto; */
+
+  /* THÊM: Cho phép cuộn ngang nếu bảng quá rộng trên màn hình */
+  overflow-x: auto;
+
   border: 1px solid #e7e3cf;
   border-radius: 0.5rem;
   margin-bottom: 1.5rem;
