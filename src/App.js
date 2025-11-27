@@ -6,16 +6,17 @@ import {
   Navigate,
 } from "react-router-dom";
 
-// Giả sử các file component của bạn nằm trong thư mục 'components'
+// Import các component
 import MainLayout from "./components/MainLayout";
 import LoginPage from "./components/LoginPage";
-import ListTankOilPage from "./components/ListTankOil"; // Sửa lại tên file nếu cần
+import ListTankOilPage from "./components/listtankoil";
 import HistoryTankOilPage from "./components/HistoryTankOil";
 import InputSsccPage from "./components/Inputsscc";
 import MixedHistoryPage from "./components/MixedHistoryPage";
+import AuditTrailPage from "./components/AuditTrailPage"; // THÊM IMPORT
 
-// Dữ liệu mẫu
-const initialTanks = [
+// Dữ liệu mẫu ban đầu (chỉ dùng khi localStorage trống)
+const initialTanksData = [
   {
     id: 1,
     code: "44456789",
@@ -26,12 +27,12 @@ const initialTanks = [
       {
         event: "Nhập kho",
         location: "Cont -20",
-        timestamp: new Date().toISOString(),
+        timestamp: "2025-11-26T10:00:00Z",
       },
       {
         event: "Chuyển cont -5°C",
         location: "Cont -5",
-        timestamp: new Date().toISOString(),
+        timestamp: "2025-11-27T08:00:00Z",
       },
     ],
   },
@@ -45,26 +46,43 @@ const initialTanks = [
       {
         event: "Nhập kho",
         location: "Cont -20",
-        timestamp: new Date().toISOString(),
+        timestamp: "2025-11-27T11:00:00Z",
       },
     ],
   },
 ];
 
 function App() {
-  const [tanks, setTanks] = useState(initialTanks);
+  // ĐỌC DỮ LIỆU TỪ LOCALSTORAGE KHI KHỞI ĐỘNG
+  const [tanks, setTanks] = useState(() => {
+    try {
+      const savedTanks = localStorage.getItem("tanksData");
+      return savedTanks ? JSON.parse(savedTanks) : initialTanksData;
+    } catch (error) {
+      console.error("Lỗi khi đọc dữ liệu từ localStorage:", error);
+      return initialTanksData;
+    }
+  });
 
-  // SỬA LẠI: Nâng cấp handleMoveTank để nhận timestamp tùy chọn
+  // LƯU DỮ LIỆU VÀO LOCALSTORAGE KHI STATE THAY ĐỔI
+  useEffect(() => {
+    try {
+      localStorage.setItem("tanksData", JSON.stringify(tanks));
+    } catch (error) {
+      console.error("Lỗi khi lưu dữ liệu vào localStorage:", error);
+    }
+  }, [tanks]);
+
+  // HÀM DI CHUYỂN TANK (PHIÊN BẢN NÂNG CẤP)
   const handleMoveTank = (tankId, newLocation, eventName, customTimestamp) => {
     setTanks((currentTanks) =>
       currentTanks.map((tank) => {
         if (tank.id === tankId) {
-          // Nếu có customTimestamp thì dùng, không thì tạo mới
           const timestamp = customTimestamp || new Date().toISOString();
           const newHistoryEntry = {
             event: eventName,
             location: newLocation,
-            timestamp: timestamp,
+            timestamp,
           };
           return {
             ...tank,
@@ -77,8 +95,27 @@ function App() {
     );
   };
 
-  const handleAddTanks = (newTanks) => {
-    setTanks((prevTanks) => [...prevTanks, ...newTanks]);
+  // HÀM THÊM TANK MỚI (PHIÊN BẢN NÂNG CẤP)
+  const handleAddTanks = (newTanksFromInput) => {
+    setTanks((currentTanks) => {
+      const maxId = currentTanks.reduce(
+        (max, tank) => Math.max(tank.id, max),
+        0
+      );
+      const tanksToAdd = newTanksFromInput.map((tank, index) => ({
+        ...tank,
+        id: maxId + index + 1,
+        location: "Cont -20",
+        history: [
+          {
+            event: "Nhập kho",
+            location: "Cont -20",
+            timestamp: new Date().toISOString(),
+          },
+        ],
+      }));
+      return [...currentTanks, ...tanksToAdd];
+    });
   };
 
   return (
@@ -86,7 +123,6 @@ function App() {
       <Routes>
         <Route path="/login" element={<LoginPage />} />
 
-        {/* Layout chính chứa các trang cần sidebar */}
         <Route element={<MainLayout />}>
           <Route
             path="/tanks"
@@ -98,9 +134,13 @@ function App() {
             }
           />
           <Route path="/history" element={<MixedHistoryPage tanks={tanks} />} />
+          {/* THÊM ROUTE MỚI CHO TRANG BÁO CÁO */}
+          <Route
+            path="/audit-trail"
+            element={<AuditTrailPage tanks={tanks} />}
+          />
           <Route
             path="/add-tank"
-            // SỬA LẠI: Truyền thêm prop 'tanks'
             element={
               <InputSsccPage onAddTanks={handleAddTanks} tanks={tanks} />
             }
@@ -111,7 +151,6 @@ function App() {
           />
         </Route>
 
-        {/* Điều hướng mặc định */}
         <Route path="*" element={<Navigate to="/tanks" replace />} />
       </Routes>
     </Router>

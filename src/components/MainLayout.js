@@ -41,6 +41,16 @@ function MainLayout() {
             <span className="material-symbols-outlined">history</span>
             <span className="nav-text">Lịch sử đã trộn</span>
           </NavLink>
+          {/* THÊM MỤC MỚI ĐỂ TRUY CẬP TRANG BÁO CÁO */}
+          <NavLink
+            to="/audit-trail"
+            className={({ isActive }) =>
+              "nav-item" + (isActive ? " active" : "")
+            }
+          >
+            <span className="material-symbols-outlined">manage_search</span>
+            <span className="nav-text">Báo cáo</span>
+          </NavLink>
         </nav>
       </aside>
 

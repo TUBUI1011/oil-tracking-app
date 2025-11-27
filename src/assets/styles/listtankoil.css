@@ -398,7 +398,10 @@ body {
 
 /* --- Cột Kanban --- */
 .kanban-column {
-  flex: 0 0 350px; /* Không co giãn, chiều rộng cố định 350px */
+  /* SỬA LẠI: Cho phép cột co giãn và đặt chiều rộng tối thiểu */
+  flex: 1 1 0; /* Cho phép cột lớn lên và co lại, bắt đầu từ cơ sở 0 */
+  min-width: 320px; /* Đảm bảo cột không bị quá hẹp */
+
   display: flex;
   flex-direction: column;
   background-color: #f1f5f9; /* Màu nền cho cột */

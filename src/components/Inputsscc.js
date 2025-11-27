@@ -16,26 +16,49 @@ function InputSsccPage({ onAddTanks, tanks }) {
   // State để hiển thị dữ liệu từ Excel
   const [excelData, setExcelData] = useState([]);
 
-  // --- XỬ LÝ NHẬP TAY ---
+  // --- XỬ LÝ NHẬP TAY (PHIÊN BẢN NÂNG CẤP) ---
   const handleManualSave = () => {
-    if (!materialCode || !sscc || !batch) {
-      alert("Vui lòng điền đầy đủ thông tin Material Code, SSCC và Batch.");
-      return;
+    // Trim tất cả các giá trị đầu vào để loại bỏ khoảng trắng thừa
+    const trimmedCode = materialCode.trim();
+    const trimmedSscc = sscc.trim();
+    const trimmedBatch = batch.trim();
+
+    // 1. Kiểm tra xem các trường có bị bỏ trống không
+    if (!trimmedCode || !trimmedSscc || !trimmedBatch) {
+      alert(
+        "Lỗi: Vui lòng điền đầy đủ thông tin Material Code, SSCC và Batch."
+      );
+      return; // Dừng lại nếu có trường trống
     }
 
-    // THÊM: Kiểm tra SSCC trùng lặp
-    const isDuplicate = tanks.some((tank) => tank.sscc === sscc.trim());
+    // 2. Kiểm tra xem SSCC đã tồn tại trong hệ thống chưa
+    // So sánh không phân biệt chữ hoa chữ thường để chắc chắn hơn
+    const isDuplicate = tanks.some(
+      (tank) => tank.sscc.toLowerCase() === trimmedSscc.toLowerCase()
+    );
+
     if (isDuplicate) {
+      // Nếu trùng, hiển thị cảnh báo lỗi và dừng lại
       alert(
-        `Lỗi: SSCC "${sscc.trim()}" đã tồn tại trong hệ thống. Vui lòng kiểm tra lại.`
+        `Lỗi: SSCC "${trimmedSscc}" đã tồn tại trong hệ thống. Vui lòng kiểm tra lại.`
       );
       return;
     }
 
-    const newTank = { code: materialCode, sscc: sscc.trim(), batch };
-    onAddTanks([newTank]);
-    alert("Đã thêm 1 tank mới vào Cont -20!");
-    navigate("/tanks"); // Quay về trang danh sách
+    // 3. Nếu tất cả kiểm tra đều qua, tiến hành thêm mới
+    const newTank = {
+      code: trimmedCode,
+      sscc: trimmedSscc,
+      batch: trimmedBatch,
+    };
+
+    onAddTanks([newTank]); // Gọi hàm để thêm tank vào state chung
+
+    // Hiển thị thông báo thành công
+    alert(`Thành công! Đã thêm Tank với SSCC "${trimmedSscc}" vào Cont -20°C.`);
+
+    // Quay về trang danh sách
+    navigate("/tanks");
   };
 
   // --- XỬ LÝ UPLOAD FILE ---
