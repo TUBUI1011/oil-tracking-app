@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { NavLink, Outlet } from "react-router-dom";
 import "../assets/styles/mainlayout.css";
+import ThongKePage from "./thongke"; // THÊM
 
 function MainLayout() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
@@ -11,7 +12,7 @@ function MainLayout() {
 
   return (
     <div
-      className={`app-container ${!isSidebarOpen ? "sidebar-collapsed" : ""}`}
+      className={`app-container${isSidebarOpen ? "" : " sidebar-collapsed"}`}
     >
       <aside className="sidebar">
         <div className="sidebar-header">
@@ -50,16 +51,21 @@ function MainLayout() {
             <span className="material-symbols-outlined">manage_search</span>
             <span className="nav-text">Báo cáo</span>
           </NavLink>
+          {/* THỐNG KÊ */}
+          <NavLink
+            to="/stats"
+            className={({ isActive }) => `nav-item${isActive ? " active" : ""}`}
+          >
+            <span className="material-symbols-outlined">query_stats</span>
+            <span>Thống kê</span>
+          </NavLink>
         </nav>
       </aside>
 
-      <div className="main-content-wrapper">
-        {/* ĐẶT NÚT TOGGLE VÀO ĐÂY */}
-        <button className="sidebar-toggle-btn" onClick={toggleSidebar}>
-          <span className="material-symbols-outlined">chevron_left</span>
-        </button>
+      <main className="main-content-wrapper">
+        {/* QUAN TRỌNG: chỉ Outlet, không bọc Routes ở đây */}
         <Outlet />
-      </div>
+      </main>
     </div>
   );
 }

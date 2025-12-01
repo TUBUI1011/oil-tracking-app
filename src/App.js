@@ -14,6 +14,7 @@ import HistoryTankOilPage from "./components/HistoryTankOil";
 import InputSsccPage from "./components/Inputsscc";
 import MixedHistoryPage from "./components/MixedHistoryPage";
 import AuditTrailPage from "./components/AuditTrailPage"; // THÊM IMPORT
+import ThongKePage from "./components/thongke";
 
 // Dữ liệu mẫu ban đầu (chỉ dùng khi localStorage trống)
 const initialTanksData = [
@@ -134,11 +135,12 @@ function App() {
             }
           />
           <Route path="/history" element={<MixedHistoryPage tanks={tanks} />} />
-          {/* THÊM ROUTE MỚI CHO TRANG BÁO CÁO */}
           <Route
             path="/audit-trail"
             element={<AuditTrailPage tanks={tanks} />}
           />
+          {/* THÊM ROUTE THỐNG KÊ */}
+          <Route path="/stats" element={<ThongKePage tanks={tanks} />} />
           <Route
             path="/add-tank"
             element={

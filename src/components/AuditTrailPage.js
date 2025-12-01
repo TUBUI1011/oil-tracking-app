@@ -1,6 +1,7 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "../assets/styles/audittrail.css"; // CSS mới cho trang này
+import * as XLSX from "xlsx"; // THÊM
+import "../assets/styles/audittrail.css";
 
 // Hàm hỗ trợ định dạng thời gian
 const formatTimestamp = (timestamp) => {
@@ -14,7 +15,15 @@ const formatTimestamp = (timestamp) => {
   });
 };
 
-// Hàm xử lý dữ liệu để tạo bảng
+// Lấy mốc thời gian mới nhất của 1 dòng (để sort)
+const latestOfRow = (row) => {
+  const ts = [row.cont20, row.cont5, row.aroma, row.mixing]
+    .filter(Boolean)
+    .map((t) => new Date(t).getTime());
+  return ts.length ? Math.max(...ts) : 0;
+};
+
+// Chuẩn bị dữ liệu cho bảng
 const processDataForTable = (tanks) => {
   return tanks.map((tank) => {
     const row = {
@@ -26,8 +35,6 @@ const processDataForTable = (tanks) => {
       aroma: null,
       mixing: null,
     };
-
-    // Duyệt qua lịch sử để lấy timestamp cho từng giai đoạn
     tank.history.forEach((entry) => {
       switch (entry.location) {
         case "Cont -20":
@@ -40,7 +47,7 @@ const processDataForTable = (tanks) => {
           row.aroma = entry.timestamp;
           break;
         case "Mixing":
-        case "Đã trộn": // Bao gồm cả trạng thái cuối cùng
+        case "Đã trộn":
           row.mixing = entry.timestamp;
           break;
         default:
@@ -53,7 +60,39 @@ const processDataForTable = (tanks) => {
 
 function AuditTrailPage({ tanks }) {
   const navigate = useNavigate();
+  const [sortOrder, setSortOrder] = useState("desc"); // "desc" mới → cũ | "asc" cũ → mới
+  const [openSort, setOpenSort] = useState(false);
+
   const tableData = useMemo(() => processDataForTable(tanks), [tanks]);
+
+  const sortedData = useMemo(() => {
+    const data = [...tableData];
+    data.sort((a, b) => {
+      const la = latestOfRow(a);
+      const lb = latestOfRow(b);
+      return sortOrder === "desc" ? lb - la : la - lb;
+    });
+    return data;
+  }, [tableData, sortOrder]);
+
+  const handleExportExcel = () => {
+    const exportRows = sortedData.map((row) => ({
+      "Material Code": row.materialCode,
+      SSCC: row.sscc,
+      Batch: row.batch || "",
+      "Cont -20°C": formatTimestamp(row.cont20),
+      "Cont -5°C": formatTimestamp(row.cont5),
+      "Aroma Room": formatTimestamp(row.aroma),
+      Mixing: formatTimestamp(row.mixing),
+    }));
+    const ws = XLSX.utils.json_to_sheet(exportRows);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Audit");
+    const fileName = `Bao_cao_truy_xuat_${new Date()
+      .toISOString()
+      .slice(0, 10)}.xlsx`;
+    XLSX.writeFile(wb, fileName);
+  };
 
   return (
     <div className="page-wrapper audit-page">
@@ -61,8 +100,59 @@ function AuditTrailPage({ tanks }) {
         <button className="header-button" onClick={() => navigate(-1)}>
           <span className="material-symbols-outlined">arrow_back</span>
         </button>
+
         <h1 className="header-title">Báo cáo truy xuất</h1>
-        <div className="header-placeholder"></div>
+
+        <div className="header-actions">
+          <div
+            className="action-dropdown"
+            tabIndex={0}
+            onBlur={() => setOpenSort(false)}
+          >
+            <button
+              className="icon-button"
+              title="Bộ lọc sắp xếp"
+              onClick={() => setOpenSort((v) => !v)}
+            >
+              <span className="material-symbols-outlined">filter_list</span>
+            </button>
+            {openSort && (
+              <div className="dropdown-menu">
+                <button
+                  className={`menu-item ${
+                    sortOrder === "desc" ? "active" : ""
+                  }`}
+                  onClick={() => {
+                    setSortOrder("desc");
+                    setOpenSort(false);
+                  }}
+                >
+                  <span className="material-symbols-outlined">south</span>
+                  Mới → Cũ
+                </button>
+                <button
+                  className={`menu-item ${sortOrder === "asc" ? "active" : ""}`}
+                  onClick={() => {
+                    setSortOrder("asc");
+                    setOpenSort(false);
+                  }}
+                >
+                  <span className="material-symbols-outlined">north</span>
+                  Cũ → Mới
+                </button>
+              </div>
+            )}
+          </div>
+
+          <button
+            className="export-button"
+            onClick={handleExportExcel}
+            title="Xuất Excel"
+          >
+            <span className="material-symbols-outlined">download</span>
+            Xuất Excel
+          </button>
+        </div>
       </header>
 
       <main className="audit-main">
@@ -80,7 +170,7 @@ function AuditTrailPage({ tanks }) {
               </tr>
             </thead>
             <tbody>
-              {tableData.map((row, index) => (
+              {sortedData.map((row, index) => (
                 <tr key={index}>
                   <td>{row.materialCode}</td>
                   <td>{row.sscc}</td>

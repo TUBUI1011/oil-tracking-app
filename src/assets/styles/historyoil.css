@@ -240,3 +240,19 @@ body.history-page {
   color: var(--text-secondary);
   font-size: 0.875rem;
 }
+
+/* VÙNG CUỘN RIÊNG CHO TRANG LỊCH SỬ */
+.page-wrapper.history-page {
+  display: flex;
+  flex-direction: column;
+  height: 100dvh; /* lấy đúng chiều cao viewport */
+  overflow-y: auto; /* cuộn tại wrapper của trang */
+  -webkit-overflow-scrolling: touch;
+}
+
+/* đảm bảo header sticky hoạt động trong vùng cuộn trên */
+.history-header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}

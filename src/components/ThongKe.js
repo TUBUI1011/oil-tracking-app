@@ -1,196 +1,307 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import "../assets/styles/thongke.css";
 
-// --- DỮ LIỆU MẪU (SAU NÀY SẼ LẤY TỪ API) ---
-const statsData = [
-  { title: "Tổng lượng dầu", value: "15,230 L", span: 1 },
-  { title: "Tiêu thụ trung bình", value: "350 L/ngày", span: 1 },
-  { title: "Cảnh báo sắp hết", value: "2 tank", span: 2 },
-];
+// Hằng số thời gian chờ theo quy trình
+const DURATION = {
+  CONT5_MS: 24 * 60 * 60 * 1000, // 24h
+  AROMA_MS: 30 * 60 * 60 * 1000, // 30h
+  OVERDUE_GRACE_MS: 4 * 60 * 60 * 1000, // +4h coi là trễ
+};
 
-const barChartData = [
-  { label: "Tank 1", height: 75 },
-  { label: "Tank 2", height: 40 },
-  { label: "Tank 3", height: 90 },
-  { label: "Tank 4", height: 20 },
-];
+// HÀM ĐỊNH DẠNG SỐ AN TOÀN
+const fmt = (n) => {
+  const value = Number.isFinite(n) ? n : Number(n ?? 0) || 0;
+  return value.toLocaleString("vi-VN");
+};
 
-const tankDetailsData = [
-  {
-    title: "Tank 1 - Diesel",
-    subtitle: "Cập nhật: 2 phút trước",
-    level: "3,800 / 5,000 L",
-    status: "Ổn định",
-  },
-  {
-    title: "Tank 2 - Diesel",
-    subtitle: "Cập nhật: 5 phút trước",
-    level: "1,950 / 5,000 L",
-    status: "Sắp hết",
-  },
-  {
-    title: "Tank 3 - Xăng 95",
-    subtitle: "Cập nhật: 10 phút trước",
-    level: "4,500 / 5,000 L",
-    status: "Ổn định",
-  },
-  {
-    title: "Tank 4 - Xăng 92",
-    subtitle: "Cập nhật: 12 phút trước",
-    level: "980 / 5,000 L",
-    status: "Gần hết",
-  },
-];
+// THÊM: map status -> class CSS (và fallback)
+const getStatusClassName = (status) => {
+  switch ((status || "").toLowerCase()) {
+    case "ok":
+    case "ready":
+      return "ok";
+    case "warning":
+    case "low":
+      return "low";
+    case "error":
+    case "critical":
+      return "critical";
+    default:
+      return "neutral";
+  }
+};
 
-// --- COMPONENT CHÍNH ---
-function ThongKePage() {
+const startOfDay = (d) => new Date(d.getFullYear(), d.getMonth(), d.getDate());
+const asTime = (ts) => (ts ? new Date(ts) : null);
+
+const lastHistoryAt = (tank, location) => {
+  if (!tank?.history) return null;
+  for (let i = tank.history.length - 1; i >= 0; i--) {
+    const h = tank.history[i];
+    if (h.location === location) return asTime(h.timestamp);
+  }
+  return null;
+};
+
+const readyInfo = (tank) => {
+  const now = Date.now();
+  if (tank.location === "Cont -5") {
+    const ts = lastHistoryAt(tank, "Cont -5");
+    if (!ts)
+      return {
+        ready: false,
+        overdue: false,
+        elapsedMs: 0,
+        needMs: DURATION.CONT5_MS,
+      };
+    const elapsed = now - ts.getTime();
+    return {
+      ready: elapsed >= DURATION.CONT5_MS,
+      overdue: elapsed >= DURATION.CONT5_MS + DURATION.OVERDUE_GRACE_MS,
+      elapsedMs: elapsed,
+      needMs: DURATION.CONT5_MS,
+    };
+  }
+  if (tank.location === "Aroma Room") {
+    const ts = lastHistoryAt(tank, "Aroma Room");
+    if (!ts)
+      return {
+        ready: false,
+        overdue: false,
+        elapsedMs: 0,
+        needMs: DURATION.AROMA_MS,
+      };
+    const elapsed = now - ts.getTime();
+    return {
+      ready: elapsed >= DURATION.AROMA_MS,
+      overdue: elapsed >= DURATION.AROMA_MS + DURATION.OVERDUE_GRACE_MS,
+      elapsedMs: elapsed,
+      needMs: DURATION.AROMA_MS,
+    };
+  }
+  return { ready: false, overdue: false, elapsedMs: 0, needMs: 0 };
+};
+
+function ThongKePage({ tanks = [] }) {
+  // đảm bảo tanks luôn là mảng
   const navigate = useNavigate();
 
-  const getStatusClassName = (status) => {
-    if (status === "Ổn định") return "stable";
-    if (status === "Sắp hết") return "low";
-    if (status === "Gần hết") return "critical";
-    return "";
-  };
+  // Phân bố theo vị trí
+  const byStage = useMemo(() => {
+    const map = {
+      "Cont -20": 0,
+      "Cont -5": 0,
+      "Aroma Room": 0,
+      Mixing: 0,
+      "Đã trộn": 0,
+    };
+    tanks.forEach((t) => {
+      if (map[t.location] !== undefined) map[t.location]++;
+    });
+    return map;
+  }, [tanks]);
+
+  // Sẵn sàng & Trễ
+  const { readyCount, overdueCount, overdueList } = useMemo(() => {
+    let ready = 0,
+      overdue = 0;
+    const list = [];
+    tanks.forEach((t) => {
+      const info = readyInfo(t);
+      if (
+        info.ready &&
+        (t.location === "Cont -5" || t.location === "Aroma Room")
+      )
+        ready++;
+      if (info.overdue) {
+        list.push({
+          id: t.id,
+          code: t.code,
+          sscc: t.sscc,
+          location: t.location,
+          hours: Math.floor(info.elapsedMs / 36e5),
+        });
+        overdue++;
+      }
+    });
+    // ưu tiên những cái quá hạn nhiều giờ
+    list.sort((a, b) => b.hours - a.hours);
+    return {
+      readyCount: ready,
+      overdueCount: overdue,
+      overdueList: list.slice(0, 8),
+    };
+  }, [tanks]);
+
+  // Số đã trộn hôm nay + 7 ngày gần nhất (trend)
+  const trend = useMemo(() => {
+    const today = startOfDay(new Date());
+    const days = [...Array(7)].map(
+      (_, i) => new Date(today.getTime() - (6 - i) * 86400000)
+    );
+    const bucket = days.map((d) => ({ date: d, count: 0 }));
+    let mixedToday = 0;
+
+    tanks.forEach((t) => {
+      const mixedTs = lastHistoryAt(t, "Đã trộn") || lastHistoryAt(t, "Mixing"); // fallback nếu quy trình lưu "Mixing"
+      if (!mixedTs) return;
+      const sod = startOfDay(mixedTs);
+      // hôm nay
+      if (sod.getTime() === today.getTime()) mixedToday++;
+      // 7 ngày
+      bucket.forEach((b) => {
+        if (sod.getTime() === b.date.getTime()) b.count++;
+      });
+    });
+
+    const max = Math.max(1, ...bucket.map((b) => b.count));
+    return {
+      mixedToday,
+      series: bucket,
+      max,
+    };
+  }, [tanks]);
+
+  // Lead time TB từ Cont -20 -> Đã trộn
+  const avgLeadHours = useMemo(() => {
+    let total = 0,
+      n = 0;
+    tanks.forEach((t) => {
+      const s = lastHistoryAt(t, "Cont -20");
+      const e = lastHistoryAt(t, "Đã trộn") || lastHistoryAt(t, "Mixing");
+      if (s && e && e > s) {
+        total += (e.getTime() - s.getTime()) / 36e5;
+        n++;
+      }
+    });
+    return n ? Math.round((total / n) * 10) / 10 : 0;
+  }, [tanks]);
+
+  const total = tanks.length;
 
   return (
     <div className="page-wrapper">
-      {/* Top App Bar */}
       <header className="report-header">
         <button className="header-button" onClick={() => navigate(-1)}>
           <span className="material-symbols-outlined">arrow_back</span>
         </button>
         <h1 className="header-title">Báo Cáo & Thống Kê</h1>
-        <button className="header-button">
+        <button className="header-button" title="Tải ảnh dashboard">
           <span className="material-symbols-outlined">download</span>
         </button>
       </header>
 
-      {/* Chips / Filters */}
-      <div className="filter-chips-container">
-        <button className="filter-chip">
-          <p>Tháng này</p>
-          <span className="material-symbols-outlined">expand_more</span>
-        </button>
-        <button className="filter-chip">
-          <p>Tất cả các tank</p>
-          <span className="material-symbols-outlined">expand_more</span>
-        </button>
-      </div>
-
-      {/* Stats */}
+      {/* KPI Cards */}
       <div className="stats-grid">
-        {statsData.map((stat, index) => (
-          <div
-            key={index}
-            className={`stat-card ${stat.span === 2 ? "full-span" : ""}`}
-          >
-            <p className="stat-card-title">{stat.title}</p>
-            <p className="stat-card-value">{stat.value}</p>
-          </div>
-        ))}
+        <div className="stat-card">
+          <p className="stat-card-title">Tổng số tank đang quản lý</p>
+          <p className="stat-card-value">{fmt(total)}</p>
+        </div>
+        <div className="stat-card">
+          <p className="stat-card-title">Tank sẵn sàng di chuyển</p>
+          <p className="stat-card-value">{fmt(readyCount)}</p>
+        </div>
+        <div className="stat-card">
+          <p className="stat-card-title">Đã trộn hôm nay</p>
+          <p className="stat-card-value">{fmt(trend.mixedToday)}</p>
+        </div>
+        <div className="stat-card">
+          <p className="stat-card-title">Lead time TB (giờ)</p>
+          <p className="stat-card-value">{avgLeadHours}</p>
+        </div>
       </div>
 
       {/* Charts */}
       <div className="content-section">
+        {/* Phân bố theo giai đoạn */}
         <div className="chart-card">
-          <p className="chart-card-title">Mức dầu hiện tại theo từng tank</p>
-          <div className="chart-header">
-            <p className="chart-value">15,230 L</p>
-            <div className="chart-subtitle">
-              <p className="chart-subtitle-text">Hôm nay</p>
-              <p className="chart-percentage negative">-5%</p>
-            </div>
-          </div>
+          <p className="chart-card-title">Phân bố theo giai đoạn</p>
           <div className="bar-chart-grid">
-            {barChartData.map((bar, index) => (
-              <div key={index} className="bar-chart-item">
-                <div
-                  className="bar-chart-bar"
-                  style={{ height: `${bar.height}%` }}
-                ></div>
-                <p className="bar-chart-label">{bar.label}</p>
-              </div>
-            ))}
+            {[
+              { label: "Cont -20°C", value: byStage["Cont -20"] },
+              { label: "Cont -5°C", value: byStage["Cont -5"] },
+              { label: "Aroma", value: byStage["Aroma Room"] },
+              { label: "Mixing", value: byStage["Mixing"] },
+              { label: "Đã trộn", value: byStage["Đã trộn"] },
+            ].map((b, i) => {
+              // chiều cao cột dựa trên max trong nhóm
+              const max = Math.max(1, ...Object.values(byStage));
+              const height = Math.round((b.value / max) * 100);
+              return (
+                <div key={i} className="bar-chart-item">
+                  <div
+                    className="bar-chart-bar"
+                    style={{ height: `${height}%` }}
+                  />
+                  <p className="bar-chart-label">{b.label}</p>
+                  <p className="bar-chart-label" style={{ fontWeight: 700 }}>
+                    {b.value}
+                  </p>
+                </div>
+              );
+            })}
           </div>
         </div>
 
+        {/* Xu hướng 7 ngày */}
         <div className="chart-card">
-          <p className="chart-card-title">Biến động mức dầu</p>
-          <div className="chart-header">
-            <p className="chart-value">TB: 4,120 L</p>
-            <div className="chart-subtitle">
-              <p className="chart-subtitle-text">Tháng này</p>
-              <p className="chart-percentage positive">+2%</p>
-            </div>
-          </div>
-          <div className="line-chart-container">
-            <svg
-              fill="none"
-              height="148"
-              preserveAspectRatio="none"
-              viewBox="-3 0 478 150"
-              width="100%"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M0 109C18.1538 109 18.1538 21 36.3077 21C54.4615 21 54.4615 41 72.6154 41C90.7692 41 90.7692 93 108.923 93C127.077 93 127.077 33 145.231 33C163.385 33 163.385 101 181.538 101C199.692 101 199.692 61 217.846 61C236 61 236 45 254.154 45C272.308 45 272.308 121 290.462 121C308.615 121 308.615 149 326.769 149C344.923 149 344.923 1 363.077 1C381.231 1 381.231 81 399.385 81C417.538 81 417.538 129 435.692 129C453.846 129 453.846 25 472 25V149H326.769H0V109Z"
-                fill="url(#paint0_linear_chart)"
-              ></path>
-              <path
-                d="M0 109C18.1538 109 18.1538 21 36.3077 21C54.4615 21 54.4615 41 72.6154 41C90.7692 41 90.7692 93 108.923 93C127.077 93 127.077 33 145.231 33C163.385 33 163.385 101 181.538 101C199.692 101 199.692 61 217.846 61C236 61 236 45 254.154 45C272.308 45 272.308 121 290.462 121C308.615 121 308.615 149 326.769 149C344.923 149 344.923 1 363.077 1C381.231 1 381.231 81 399.385 81C417.538 81 417.538 129 435.692 129C453.846 129 453.846 25 472 25"
-                stroke="#f0d342"
-                strokeLinecap="round"
-                strokeWidth="3"
-              ></path>
-              <defs>
-                <linearGradient
-                  gradientUnits="userSpaceOnUse"
-                  id="paint0_linear_chart"
-                  x1="236"
-                  x2="236"
-                  y1="1"
-                  y2="149"
-                >
-                  <stop stopColor="#f0d342" stopOpacity="0.3"></stop>
-                  <stop offset="1" stopColor="#f0d342" stopOpacity="0"></stop>
-                </linearGradient>
-              </defs>
-            </svg>
-            <div className="line-chart-labels">
-              <p className="bar-chart-label">01/11</p>
-              <p className="bar-chart-label">08/11</p>
-              <p className="bar-chart-label">15/11</p>
-              <p className="bar-chart-label">22/11</p>
-              <p className="bar-chart-label">30/11</p>
-            </div>
+          <p className="chart-card-title">Xu hướng “Đã trộn” 7 ngày</p>
+          <div
+            className="bar-chart-grid"
+            style={{ gridAutoFlow: "column", gap: "0.75rem" }}
+          >
+            {trend.series.map((d, i) => {
+              const h = Math.round((d.count / trend.max) * 100);
+              const label = d.date.toLocaleDateString("vi-VN", {
+                day: "2-digit",
+                month: "2-digit",
+              });
+              return (
+                <div key={i} className="bar-chart-item">
+                  <div className="bar-chart-bar" style={{ height: `${h}%` }} />
+                  <p className="bar-chart-label">{label}</p>
+                  <p className="bar-chart-label" style={{ fontWeight: 700 }}>
+                    {d.count}
+                  </p>
+                </div>
+              );
+            })}
           </div>
         </div>
       </div>
 
-      {/* Tank Details List */}
+      {/* Danh sách tank chi tiết */}
       <h2 className="section-header">Chi tiết các tank</h2>
       <div className="tank-list">
-        {tankDetailsData.map((tank, index) => (
-          <div key={index} className="tank-item">
-            <div className="tank-icon-wrapper">
-              <span className="material-symbols-outlined">oil_barrel</span>
+        {tanks.map((tank, index) => {
+          const level =
+            Number.isFinite(tank.level) ? tank.level : Number(tank.level ?? 0) || 0;
+          const capacity =
+            Number.isFinite(tank.capacity)
+              ? tank.capacity
+              : Number(tank.capacity ?? 0) || 0;
+
+          return (
+            <div key={index} className="tank-item">
+              <div className="tank-icon-wrapper">
+                <span className="material-symbols-outlined">oil_barrel</span>
+              </div>
+              <div className="tank-details">
+                <p className="tank-title">{tank.code}</p>
+                <p className="tank-subtitle">{tank.location || "N/A"}</p>
+              </div>
+              <div className="tank-status">
+                <p className="tank-level">
+                  {capacity ? `${fmt(level)} / ${fmt(capacity)}` : "N/A"}
+                </p>
+                <span className={`status-badge ${getStatusClassName(tank.status)}`}>
+                  {tank.status || "—"}
+                </span>
+              </div>
             </div>
-            <div className="tank-details">
-              <p className="tank-title">{tank.title}</p>
-              <p className="tank-subtitle">{tank.subtitle}</p>
-            </div>
-            <div className="tank-status">
-              <p className="tank-level">{tank.level}</p>
-              <span
-                className={`status-badge ${getStatusClassName(tank.status)}`}
-              >
-                {tank.status}
-              </span>
-            </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </div>
   );

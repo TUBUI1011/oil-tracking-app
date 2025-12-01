@@ -2,7 +2,18 @@
   background-color: #f8fafc;
 }
 
+.page-wrapper.audit-page {
+  display: flex;
+  flex-direction: column;
+  height: 100dvh; /* lấy chiều cao viewport */
+  overflow-y: auto; /* cuộn trong chính trang Audit */
+  -webkit-overflow-scrolling: touch;
+}
+
 .audit-header {
+  position: sticky; /* header bám trên khi cuộn */
+  top: 0;
+  z-index: 10;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -11,7 +22,87 @@
   border-bottom: 1px solid #e2e8f0;
 }
 
+.header-title {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.icon-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+  background: #fff;
+  cursor: pointer;
+}
+
+.action-dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-menu {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 8px);
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  min-width: 180px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+  padding: 6px;
+  z-index: 20;
+}
+
+.menu-item {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  border: none;
+  background: transparent;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  color: #334155;
+}
+.menu-item:hover {
+  background: #f1f5f9;
+}
+.menu-item.active {
+  background: #e2e8f0;
+}
+
+.export-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid #dbe3ef;
+  background: #1d4ed8;
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+}
+.export-button:hover {
+  background: #1e40af;
+}
+
 .audit-main {
+  flex: 1; /* chiếm phần còn lại */
+  min-height: 0; /* cần cho flex-child để overflow hoạt động */
   padding: 1.5rem; /* THÊM LẠI PADDING Ở ĐÂY */
 }
 

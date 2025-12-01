@@ -1,17 +1,19 @@
-import React, { useState, useMemo } from 'react';
-import { Link } from 'react-router-dom';
-// Chúng ta sẽ sử dụng lại CSS từ trang historyoil để tiết kiệm thời gian
-import '../assets/styles/historyoil.css'; 
+import React, { useState, useMemo } from "react";
+import { Link, useNavigate } from "react-router-dom";
+// SỬA: dùng đúng file CSS của trang History
+import "../assets/styles/mixedhistory.css";
 
 function MixedHistoryPage({ tanks }) {
-  const [searchTerm, setSearchTerm] = useState('');
+  const navigate = useNavigate();
+  const [searchTerm, setSearchTerm] = useState("");
 
   const mixedTanks = useMemo(() => {
     return tanks
-      .filter(tank => tank.location === 'Đã trộn')
-      .filter(tank => 
-        (tank.code?.toLowerCase() || '').includes(searchTerm.toLowerCase()) ||
-        (tank.sscc?.toLowerCase() || '').includes(searchTerm.toLowerCase())
+      .filter((tank) => tank.location === "Đã trộn")
+      .filter(
+        (tank) =>
+          (tank.code?.toLowerCase() || "").includes(searchTerm.toLowerCase()) ||
+          (tank.sscc?.toLowerCase() || "").includes(searchTerm.toLowerCase())
       )
       .sort((a, b) => {
         const timeA = a.history.slice(-1)[0]?.timestamp;
@@ -21,20 +23,29 @@ function MixedHistoryPage({ tanks }) {
   }, [tanks, searchTerm]);
 
   const getMixedTimestamp = (tank) => {
-    const mixedEvent = tank.history.find(h => h.event === 'Đưa vào trộn');
-    return mixedEvent ? new Date(mixedEvent.timestamp).toLocaleString('vi-VN') : 'N/A';
+    const mixedEvent = tank.history.find((h) => h.event === "Đưa vào trộn");
+    return mixedEvent
+      ? new Date(mixedEvent.timestamp).toLocaleString("vi-VN")
+      : "N/A";
   };
 
   return (
-    <div className="page-wrapper">
-      <header className="history-header">
-        <h1 className="header-title">Lịch sử Tank đã trộn</h1>
-      </header>
+    // bỏ inline style, để CSS kiểm soát chiều cao/cuộn
+    <div className="history-page-layout">
+      <div className="history-header">
+        <button onClick={() => navigate(-1)} className="history-back-button">
+          <span className="material-symbols-outlined">arrow_back</span>
+        </button>
+        <h1 className="history-title">Lịch sử Tank đã trộn</h1>
+      </div>
 
-      <main>
+      {/* SỬA: vùng này sẽ cuộn */}
+      <main className="history-scroll">
         <div className="main-content">
           <div className="search-bar-wrapper">
-            <span className="material-symbols-outlined search-icon">search</span>
+            <span className="material-symbols-outlined search-icon">
+              search
+            </span>
             <input
               className="search-input"
               placeholder="Tìm trong danh sách đã trộn..."
@@ -47,9 +58,13 @@ function MixedHistoryPage({ tanks }) {
 
         <div className="transaction-list">
           {mixedTanks.length > 0 ? (
-            mixedTanks.map(tank => (
+            mixedTanks.map((tank) => (
               // Mỗi item là một Link đến trang chi tiết
-              <Link to={`/tank/${tank.id}`} key={tank.id} className="transaction-item-link">
+              <Link
+                to={`/tank/${tank.id}`}
+                key={tank.id}
+                className="transaction-item-link"
+              >
                 <div className="transaction-item">
                   <div className="item-icon-wrapper out">
                     <span className="material-symbols-outlined">inventory</span>
@@ -60,13 +75,17 @@ function MixedHistoryPage({ tanks }) {
                   </div>
                   <div className="item-meta">
                     <p className="item-timestamp">{getMixedTimestamp(tank)}</p>
-                    <span className="material-symbols-outlined">chevron_right</span>
+                    <span className="material-symbols-outlined">
+                      chevron_right
+                    </span>
                   </div>
                 </div>
               </Link>
             ))
           ) : (
-            <p style={{ textAlign: 'center', padding: '2rem', color: '#64748b' }}>
+            <p
+              style={{ textAlign: "center", padding: "2rem", color: "#64748b" }}
+            >
               Chưa có tank nào được đưa vào trộn.
             </p>
           )}
