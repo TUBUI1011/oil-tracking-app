@@ -1,6 +1,5 @@
 :root {
   --sidebar-width: 240px;
-  --bottom-nav-height: 5rem;
   --primary-color: #f0d342;
   --primary-text: #3a2e00;
   --text-primary: #1e293b;
@@ -18,101 +17,86 @@
 }
 
 body {
-  margin: 0; /* QUAN TRỌNG: Xóa margin mặc định để sidebar nằm sát lề */
+  margin: 0;
   background-color: var(--app-bg);
   font-family: sans-serif;
-  overflow: hidden;
 }
 
-/* --- BỘ KHUNG LAYOUT CHÍNH --- */
+/* --- BỘ KHUNG LAYOUT MỚI, ĐƠN GIẢN HÓA --- */
 .app-container {
-  display: flex;
-  height: 100vh;
-  position: relative; /* Để định vị nút toggle */
+  position: relative;
+  padding-left: var(--sidebar-width); /* Tạo không gian cho sidebar */
+  transition: padding-left 0.3s ease-in-out;
 }
 
-/* --- SIDEBAR --- */
+/* --- SIDEBAR CỐ ĐỊNH (STICKY) --- */
 .sidebar {
+  position: fixed; /* Sửa thành fixed để tách biệt hoàn toàn khỏi luồng trang */
+  top: 0;
+  left: 0;
+  height: 100vh; /* Luôn cao bằng màn hình */
   width: var(--sidebar-width);
-  flex-shrink: 0;
   background-color: var(--sidebar-bg);
   border-right: 1px solid var(--border-color);
-  display: flex;
-  flex-direction: column;
   padding: 1.5rem 1rem;
-  transition: width 0.3s ease-in-out, padding 0.3s ease-in-out,
-    border-width 0.3s ease-in-out;
-  overflow: hidden; /* Ẩn nội dung khi thu nhỏ */
-  z-index: 20;
+  z-index: 100;
+  transition: transform 0.3s ease-in-out;
 }
 
 /* --- VÙNG NỘI DUNG CHÍNH --- */
 .main-content-wrapper {
-  flex-grow: 1;
-  height: 100%;
-  overflow-y: auto;
+  width: 100%;
+  min-height: 100vh; /* Đảm bảo wrapper có chiều cao tối thiểu */
 }
 
-/* --- NÚT TOGGLE ĐƯỢC ĐỊNH VỊ LẠI --- */
+/* --- NÚT TOGGLE --- */
 .sidebar-toggle-btn {
-  position: absolute;
+  position: fixed; /* Nút cũng cố định theo màn hình */
   top: 1.25rem;
-  /* Định vị nút dựa trên chiều rộng của sidebar */
   left: var(--sidebar-width);
-  transform: translateX(-50%); /* Căn giữa nút trên đường viền */
-  z-index: 50; /* Đảm bảo nút luôn nằm trên cùng */
-
+  transform: translateX(-50%);
+  z-index: 110;
   background-color: #fff;
   border: 1px solid var(--border-color);
   border-radius: 50%;
   width: 32px;
   height: 32px;
-
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-  transition: left 0.3s ease-in-out, transform 0.3s ease-in-out;
-}
-.sidebar-toggle-btn .material-symbols-outlined {
-  transition: transform 0.3s ease-in-out;
+  transition: left 0.3s ease-in-out;
 }
 
 /* --- LOGIC KHI SIDEBAR BỊ ẨN --- */
 .app-container.sidebar-collapsed .sidebar {
-  width: 0;
-  padding-left: 0;
-  padding-right: 0;
-  border-right-width: 0;
+  transform: translateX(-100%); /* Trượt sidebar ra khỏi màn hình */
+}
+
+.app-container.sidebar-collapsed {
+  padding-left: 0; /* Vùng nội dung chiếm toàn bộ chiều rộng */
 }
 
 .app-container.sidebar-collapsed .sidebar-toggle-btn {
-  left: 0; /* Khi sidebar ẩn, nút sẽ di chuyển về sát lề trái */
-  transform: translateX(50%); /* Căn lại nút cho đẹp */
+  left: 0;
+  transform: translateX(50%);
 }
 
 .app-container.sidebar-collapsed
   .sidebar-toggle-btn
   .material-symbols-outlined {
-  transform: rotate(180deg); /* Xoay icon */
+  transform: rotate(180deg);
 }
 
 /* --- CÁC STYLE CHI TIẾT KHÁC (giữ nguyên) --- */
 .sidebar-header {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  gap: 0.75rem;
   padding-bottom: 1.5rem;
   border-bottom: 1px solid var(--border-color);
   margin-bottom: 1rem;
-  white-space: nowrap;
-}
-.logo-group {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
 }
 .logo-icon {
   font-size: 2rem;
@@ -137,8 +121,7 @@ body {
   text-decoration: none;
   color: var(--text-secondary);
   font-weight: 600;
-  white-space: nowrap;
-  transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+  transition: all 0.2s;
 }
 .sidebar-nav .nav-item:hover {
   background-color: #f1f5f9;

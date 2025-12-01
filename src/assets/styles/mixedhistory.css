@@ -1,0 +1,120 @@
+/* --- CÀI ĐẶT CHUNG CHO TRANG LỊCH SỬ --- */
+.history-page-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding: 1.5rem;
+  /* XÓA: Dòng này đang gây ra lỗi không cuộn được */
+  /* min-height: calc(100vh - 3rem); */
+  width: 100%;
+  max-width: 900px; /* Giới hạn chiều rộng để dễ đọc hơn */
+  margin: 0 auto; /* Căn giữa container */
+}
+
+/* --- HEADER & THANH TÌM KIẾM --- */
+.history-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.history-back-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem;
+  border-radius: 50%;
+  transition: background-color 0.2s ease;
+}
+.history-back-button:hover {
+  background-color: #f1f5f9;
+}
+.history-title {
+  margin: 0;
+  font-size: 1.75rem;
+  color: #1e293b;
+}
+.history-search-bar {
+  display: flex;
+  align-items: center;
+  background-color: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.5rem;
+  padding: 0 0.75rem;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  width: 100%;
+}
+.history-search-icon {
+  color: #94a3b8;
+}
+.history-search-input {
+  border: none;
+  outline: none;
+  padding: 0.75rem 0.5rem;
+  font-size: 1rem;
+  background: transparent;
+  width: 100%;
+}
+
+/* --- DANH SÁCH CÁC MỤC LỊCH SỬ --- */
+.history-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.history-item-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #fff;
+  padding: 1rem 1.5rem;
+  border-radius: 0.5rem;
+  border: 1px solid #e2e8f0;
+  text-decoration: none;
+  color: inherit;
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+.history-item-link:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.07);
+  transform: translateY(-2px);
+}
+
+.history-item-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.history-item-icon {
+  background-color: #fef3c7; /* Màu vàng nhạt */
+  color: #ca8a04; /* Màu vàng đậm */
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.history-item-details {
+  display: flex;
+  flex-direction: column;
+}
+.history-item-code {
+  font-weight: 600;
+  color: #1e293b;
+}
+.history-item-sscc {
+  font-size: 0.875rem;
+  color: #64748b;
+}
+
+.history-item-timestamp {
+  font-size: 0.875rem;
+  color: #64748b;
+  font-weight: 500;
+}
+.history-item-arrow {
+  color: #94a3b8;
+}

@@ -12,7 +12,7 @@
 }
 
 .audit-main {
-  padding: 1.5rem;
+  padding: 1.5rem; /* THÊM LẠI PADDING Ở ĐÂY */
 }
 
 .table-container {

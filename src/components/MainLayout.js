@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { NavLink, Outlet, Link } from "react-router-dom";
+import { NavLink, Outlet } from "react-router-dom";
 import "../assets/styles/mainlayout.css";
 
 function MainLayout() {
@@ -41,7 +41,6 @@ function MainLayout() {
             <span className="material-symbols-outlined">history</span>
             <span className="nav-text">Lịch sử đã trộn</span>
           </NavLink>
-          {/* THÊM MỤC MỚI ĐỂ TRUY CẬP TRANG BÁO CÁO */}
           <NavLink
             to="/audit-trail"
             className={({ isActive }) =>
@@ -54,37 +53,13 @@ function MainLayout() {
         </nav>
       </aside>
 
-      {/* NÚT TOGGLE ĐƯỢC ĐẶT NGANG HÀNG */}
-      <button className="sidebar-toggle-btn" onClick={toggleSidebar}>
-        <span className="material-symbols-outlined">chevron_left</span>
-      </button>
-
       <div className="main-content-wrapper">
+        {/* ĐẶT NÚT TOGGLE VÀO ĐÂY */}
+        <button className="sidebar-toggle-btn" onClick={toggleSidebar}>
+          <span className="material-symbols-outlined">chevron_left</span>
+        </button>
         <Outlet />
       </div>
-
-      {/* --- NÚT THÊM MỚI (FAB) --- */}
-      <Link to="/add-tank" className="fab-add-button">
-        <span className="material-symbols-outlined">add</span>
-      </Link>
-
-      {/* --- THANH ĐIỀU HƯỚNG DƯỚI (BOTTOM BAR) CHO ĐIỆN THOẠI --- */}
-      <nav className="bottom-nav">
-        <NavLink
-          to="/tanks"
-          className={({ isActive }) => `nav-item ${isActive ? "active" : ""}`}
-        >
-          <span className="material-symbols-outlined">view_kanban</span>
-          <span>Quy trình</span>
-        </NavLink>
-        <NavLink
-          to="/history"
-          className={({ isActive }) => `nav-item ${isActive ? "active" : ""}`}
-        >
-          <span className="material-symbols-outlined">history</span>
-          <span className="nav-text">Lịch sử</span>
-        </NavLink>
-      </nav>
     </div>
   );
 }
